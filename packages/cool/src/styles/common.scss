@@ -1,0 +1,26 @@
+body {
+  /* fix vaul-vue 失效 */
+  pointer-events: auto !important;
+}
+
+#root,
+#app {
+  height: 100%;
+}
+
+.page-root {
+  height: 100%;
+  overflow: hidden auto;
+  touch-action: pan-y;
+}
+
+::-webkit-scrollbar {
+  display: none;
+  width: var(--ods-table-scrollbar-size);
+  height: var(--ods-table-scrollbar-size);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--border-radius-8);
+  background-color: var(--prc-neutral-100);
+}

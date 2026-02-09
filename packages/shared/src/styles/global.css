@@ -1,0 +1,21 @@
+:root {
+  color-scheme: auto;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--global-font-family);
+  font-size: var(--text-size-16);
+  color: var(--prc-neutral-900);
+  font-weight: var(--text-bold-400);
+  background-color: var(--prc-surface-3);
+  line-height: var(--line-height-3);
+
+  overscroll-behavior-y: contain;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

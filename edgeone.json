@@ -1,0 +1,36 @@
+{
+  "name": "cool-person",
+  "devCommand": "pnpm start",
+  "buildCommand": "pnpm build",
+  "installCommand": "pnpm i",
+  "outputDirectory": "./packages/cool/dist",
+  "nodeVersion": "22.11.0",
+  "headers": [
+    {
+      "source": "/*",
+      "headers": [
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "max-age=7200"
+        }
+      ]
+    },
+    {
+      "source": "/assets/*",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "max-age=31536000"
+        }
+      ]
+    }
+  ],
+  "node-functions": {
+    "external_node_modules": ["svg-captcha"],
+    "included_files": ["assets/**"]
+  }
+}

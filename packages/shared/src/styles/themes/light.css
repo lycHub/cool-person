@@ -1,0 +1,136 @@
+:root {
+  /* 主色调 */
+  --prc-primary-50: #e3f2fd;
+  --prc-primary-100: #bbdefb;
+  --prc-primary-200: #90caf9;
+  --prc-primary-300: #64b5f6;
+  --prc-primary-400: #42a5f5;
+  --prc-primary-500: #2196f3; /* 主色 */
+  --prc-primary-600: #1e88e5;
+  --prc-primary-700: #1976d2;
+  --prc-primary-800: #1565c0;
+  --prc-primary-900: #0d47a1;
+
+  /* 中性色 */
+  --prc-neutral-50: #fafafa;
+  --prc-neutral-100: #f5f5f5;
+  --prc-neutral-200: #eeeeee;
+  --prc-neutral-300: #e0e0e0;
+  --prc-neutral-400: #bdbdbd;
+  --prc-neutral-500: #9e9e9e;
+  --prc-neutral-600: #757575;
+  --prc-neutral-700: #616161;
+  --prc-neutral-800: #424242;
+  --prc-neutral-900: #212121;
+
+  /* 语义色 */
+  --prc-success: #4caf50;
+  --prc-warning: #ff9800;
+  --prc-error: #f44336;
+  --prc-info: #2196f3;
+
+  /* 表面色 */
+  --prc-surface-1: #ffffff;
+  --prc-surface-2: #fafafa;
+  --prc-surface-3: #f5f5f5;
+
+  /* 红色系 */
+  --prc-red-1: #fff5f5;
+  --prc-red-2: #fee2e2;
+  --prc-red-3: #fecdd3;
+  --prc-red-4: #fda4af;
+  --prc-red-5: #fb7185;
+  --prc-red-6: #f43f5e;
+  --prc-red-7: #e11d48;
+  --prc-red-8: #b91c1c;
+
+  /* 黄色系 */
+  --prc-yellow-1: #fffbeb;
+  --prc-yellow-2: #fef3c7;
+  --prc-yellow-3: #fde68a;
+  --prc-yellow-4: #fcd34d;
+  --prc-yellow-5: #fbbf24;
+  --prc-yellow-6: #f59e0b;
+  --prc-yellow-7: #d97706;
+  --prc-yellow-8: #b45309;
+
+  /* 绿色系 */
+  --prc-green-1: #f0fdf4;
+  --prc-green-2: #dcfce7;
+  --prc-green-3: #bbf7d0;
+  --prc-green-4: #86efac;
+  --prc-green-5: #4ade80;
+  --prc-green-6: #22c55e;
+  --prc-green-7: #16a34a;
+  --prc-green-8: #15803d;
+
+  /* 橙色系 */
+  --prc-orange-1: #fff7ed;
+  --prc-orange-2: #ffedd5;
+  --prc-orange-3: #fed7aa;
+  --prc-orange-4: #fdba74;
+  --prc-orange-5: #fb923c;
+  --prc-orange-6: #f97316;
+  --prc-orange-7: #ea580c;
+  --prc-orange-8: #c2410c;
+
+  /* 紫色系 */
+  --prc-purple-1: #faf5ff;
+  --prc-purple-2: #f3e8ff;
+  --prc-purple-3: #e9d5ff;
+  --prc-purple-4: #d8b4fe;
+  --prc-purple-5: #c084fc;
+  --prc-purple-6: #a855f7;
+  --prc-purple-7: #9333ea;
+  --prc-purple-8: #7e22ce;
+
+  /* 青色系（蓝绿/天青） */
+  --prc-cyan-1: #ecfeff;
+  --prc-cyan-2: #cffafe;
+  --prc-cyan-3: #a5f3fc;
+  --prc-cyan-4: #67e8f9;
+  --prc-cyan-5: #22d3ee;
+  --prc-cyan-6: #06b6d4;
+  --prc-cyan-7: #0891b2;
+  --prc-cyan-8: #0e7490;
+
+  /* 粉色系 */
+  --prc-pink-1: #fdf2f8;
+  --prc-pink-2: #fce7f3;
+  --prc-pink-3: #fbcfe8;
+  --prc-pink-4: #f9a8d4;
+  --prc-pink-5: #f472b6;
+  --prc-pink-6: #ec4899;
+  --prc-pink-7: #db2777;
+  --prc-pink-8: #be185d;
+
+  /* 珊瑚色系 */
+  --prc-coral-1: #fff1f2;
+  --prc-coral-2: #ffe4e6;
+  --prc-coral-3: #fecdd3;
+  --prc-coral-4: #fda4af;
+  --prc-coral-5: #fb7185;
+  --prc-coral-6: #f43f5e;
+  --prc-coral-7: #e11d48;
+  --prc-coral-8: #b91c1c;
+
+  /* 米色/浅棕色系 */
+  --prc-beige-1: #fef3c7;
+  --prc-beige-2: #fde68a;
+  --prc-beige-3: #fcd34d;
+  --prc-beige-4: #fbbf24;
+  --prc-beige-5: #f59e0b;
+  --prc-beige-6: #d97706;
+  --prc-beige-7: #b45309;
+  --prc-beige-8: #92400e;
+
+  /* 乳白色系 */
+  --prc-cream-1: #fffcf7;
+  --prc-cream-2: #fff8ed;
+  --prc-cream-3: #fff3e0;
+  --prc-cream-4: #ffecc2;
+  --prc-cream-5: #ffdf9d;
+  --prc-cream-6: #ffd17a;
+  --prc-cream-7: #f3ba61;
+  --prc-cream-8: #d69a4a;
+}

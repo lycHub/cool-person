@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "Kingsman";
+  src: url("../assets/font/KingsmanDemo-1GVgg.ttf") format("truetype");
+  font-weight: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kingsman";
+  src: url("../assets/font/KingsmanDemo-1GVgg.ttf") format("truetype");
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kingsman";
+  src: url("../assets/font/KingsmanDemo-1GVgg.ttf") format("truetype");
+  font-weight: bold;
+  font-display: swap;
+}

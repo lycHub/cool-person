@@ -1,0 +1,9 @@
+{
+  "extends": "@tsconfig/recommended/tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "es2020"
+  },
+  "include": ["src"],
+  "exclude": ["**/*.ignore.{js,ts}"]
+}

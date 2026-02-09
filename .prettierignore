@@ -1,0 +1,16 @@
+# 构建产物
+dist/
+build/
+coverage/
+
+# 依赖目录
+node_modules/
+
+# 配置文件
+*.config.js
+*.conf.js
+
+# 特殊文件
+package.json
+*.svg
+.vscode

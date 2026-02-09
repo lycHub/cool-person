@@ -1,0 +1,52 @@
+@keyframes shape-animation-one {
+  0% {
+    transform: translateY(-50%) rotate(0);
+    left: 8vw;
+  }
+
+  50% {
+    left: 10vw;
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(360deg);
+    left: 8vw;
+  }
+}
+
+@keyframes shape-animation-two {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+    right: 8vw;
+  }
+
+  50% {
+    right: 6vw;
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(-720deg);
+    right: 8vw;
+  }
+}
+
+@keyframes rotate-round {
+  0% {
+    transform: rotate(0);
+  }
+
+  100% {
+    transform: rotate(1turn);
+  }
+}
+
+@keyframes breath {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
