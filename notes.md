@@ -1,11 +1,7 @@
 ### todo
 
-- footer
-- 菜单
-- loading
-- 研究弹簧并增加初始的自由落体
-- 顶部进度
-- github actions(https://www.bilibili.com/video/BV1Tu6EBhECo/?spm_id_from=333.1387.homepage.video_card.click);
+- 域名
+- 存储
 - ssr, 包括meta;
 
 ### 参考
