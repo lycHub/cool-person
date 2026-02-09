@@ -1,9 +1,17 @@
 <template>
   <div class="loading-wrapper" ref="loadingWrapperRef">
     <svg class="hexagon-grid" width="100%" height="100%" ref="loadingRef">
-      <hex-item :class="clsx('hexagon', { centered: hex.centered })" v-for="hex in hexagons" :key="hex.key" :data="hex"
-        :progress="progress" :polylineStroke="`rgb(${currColor})`" stroke-width="2" fill="rgb(255 255 255 / 1%)"
-        stroke="rgb(34 127 135 / 4%)" />
+      <hex-item
+        :class="clsx('hexagon', { centered: hex.centered })"
+        v-for="hex in hexagons"
+        :key="hex.key"
+        :data="hex"
+        :progress="progress"
+        :polylineStroke="`rgb(${currColor})`"
+        stroke-width="2"
+        fill="rgb(255 255 255 / 1%)"
+        stroke="rgb(34 127 135 / 4%)"
+      />
 
       <defs>
         <clipPath id="hexagon-clip">
@@ -12,10 +20,25 @@
       </defs>
 
       <g class="loading-mask" clip-path="url(#hexagon-clip)">
-        <rect :x="maskData.x" :y="maskData.y" :width="maskData.width" :height="maskData.height" fill="none"
-          :transform="`scale(1 0)`" :transform-origin="maskData.transformOrigin" />
-        <text :x="maskData.textX" :y="maskData.textY" text-anchor="middle" dominant-baseline="middle" fill="white"
-          font-size="36" font-weight="bold" pointer-events="none">
+        <rect
+          :x="maskData.x"
+          :y="maskData.y"
+          :width="maskData.width"
+          :height="maskData.height"
+          fill="none"
+          :transform="`scale(1 0)`"
+          :transform-origin="maskData.transformOrigin"
+        />
+        <text
+          :x="maskData.textX"
+          :y="maskData.textY"
+          text-anchor="middle"
+          dominant-baseline="middle"
+          fill="white"
+          font-size="36"
+          font-weight="bold"
+          pointer-events="none"
+        >
           {{ progress }}%
         </text>
       </g>
@@ -38,8 +61,6 @@ const { direction, progress, trigger } = defineProps<{
 }>();
 
 const emit = defineEmits(['onHide']);
-
-
 
 const loadingWrapperRef = useTemplateRef('loadingWrapperRef');
 const loadingRef = useTemplateRef('loadingRef');
@@ -131,7 +152,7 @@ watch([() => progress, hexagons], ([newVal, currHexagons]) => {
             });
             gsap.to('.hexagon', {
               scale: 0,
-              duration: DebounceTime.middle / 1000,
+              duration: DebounceTime.normal / 1000,
               transformOrigin: 'center',
               stagger: {
                 each: 0.01,
@@ -143,18 +164,16 @@ watch([() => progress, hexagons], ([newVal, currHexagons]) => {
                   autoAlpha: 0,
                   onComplete() {
                     emit('onHide');
-                  }
+                  },
                 });
-
-              }
+              },
             });
           });
         },
       });
     }
   }, loadingWrapperRef.value);
-})
-
+});
 
 const handleResize = useThrottleFn(
   (width: number, height: number) => {
@@ -233,9 +252,7 @@ const handleResize = useThrottleFn(
             transformOrigin: `${x} ${y + hexHeight}`,
           };
           // console.log({ maskData });
-          centerPoints.value = points
-            .map((p) => p.join(','))
-            .join(' ');
+          centerPoints.value = points.map((p) => p.join(',')).join(' ');
         }
         hexagons.value.push({
           key: `${row}-${col}`,
@@ -251,7 +268,7 @@ const handleResize = useThrottleFn(
 
 watch([width, height], ([newWidth, newHeight]) => {
   if (!canUseDOM()) return;
-  console.log({ newWidth, newHeight })
+  console.log({ newWidth, newHeight });
   handleResize(newWidth, newHeight);
 });
 
@@ -259,7 +276,7 @@ const allAniCls = {
   common: 'animate__animated',
   down: 'animate__fadeInDown',
   right: 'animate__fadeInRight',
-}
+};
 
 onMounted(() => {
   if (!loadingWrapperRef.value || !loadingRef.value) return;
@@ -269,7 +286,7 @@ onMounted(() => {
   } else {
     loadingWrapperRef.value.classList.add(allAniCls.common, aniCls);
   }
-})
+});
 
 onUnmounted(() => {
   stop();

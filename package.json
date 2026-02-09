@@ -13,7 +13,7 @@
     "commit": "cz",
     "start": "pnpm -F=@personal/cool dev",
     "build": "pnpm -F=@personal/cool build",
-    "deploy": "edgeone pages deploy"
+    "preview": "pnpm -F=@personal/cool preview"
   },
   "config": {
     "commitizen": {
