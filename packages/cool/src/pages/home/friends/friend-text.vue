@@ -22,9 +22,6 @@ const { stop } = isClient
   ? useIntersectionObserver(
       rootRef,
       ([entry]) => {
-        console.log({
-          intersectionRatio: entry?.intersectionRatio,
-        });
         const intersectionRatio = entry?.intersectionRatio || 0;
         if (intersectionRatio >= 0.8) {
           startAni();

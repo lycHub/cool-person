@@ -179,12 +179,6 @@ const handleResize = useThrottleFn(
      */
     const cols = Math.ceil(width / (hexWidth * 0.75)) + 2;
 
-    // console.log({
-    //   hexSize: hexSize,
-    //   hexWidth: hexWidth,
-    //   hexHeight: hexHeight,
-    // });
-
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         // 计算当前六边形的X坐标偏移
@@ -236,7 +230,6 @@ const handleResize = useThrottleFn(
 
 watch([width, height], ([newWidth, newHeight]) => {
   if (!canUseDOM()) return;
-  console.log({ newWidth, newHeight });
   handleResize(newWidth, newHeight);
 });
 
@@ -247,7 +240,6 @@ const allAniCls = {
 };
 
 watch([() => progress, hexagons], ([newVal, currHexagons]) => {
-  // console.log('wat progress', newVal)
   if (!loadingWrapperRef.value || !currHexagons.length) return;
   ctx = gsap.context(() => {
     const opacity = transformer(newVal);

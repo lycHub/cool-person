@@ -54,6 +54,9 @@ function getClientCoordinateFromTouchList(touches: TouchList): TypeWithUndefined
 export const getClientCoordinateFromEvent = (
   event: PointEventType,
 ): TypeWithUndefined<ClientCoordinate> => {
+  if (!canUseDOM()) {
+    return undefined;
+  }
   if ('clientX' in event && 'clientY' in event) {
     return {
       clientX: event.clientX,

@@ -327,7 +327,6 @@ const { stop } = isClient
       svgRef,
       ([entry]) => {
         const intersectionRatio = entry?.intersectionRatio || 0;
-        console.log({ intersectionRatio });
         if (intersectionRatio === 1) {
           if (!visible) {
             svgRef.value!.style.visibility = 'visible';

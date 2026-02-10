@@ -1,12 +1,16 @@
 import { createStorage } from 'unstorage';
 import localStorageDriver from 'unstorage/drivers/localstorage';
+import { isClient } from '@vueuse/core';
+import memoryDriver from 'unstorage/drivers/memory';
 
 import type { SingleOrArray } from '@personal/shared';
 
 export const StorageKeyPrefix = 'vue';
 
 export const storage = createStorage({
-  driver: localStorageDriver({ base: StorageKeyPrefix, windowKey: 'localStorage' }),
+  driver: isClient
+    ? localStorageDriver({ base: StorageKeyPrefix, windowKey: 'localStorage' })
+    : memoryDriver(),
 });
 
 export async function toggleStorage<T extends object | string>(key: string, data?: T) {
