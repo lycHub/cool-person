@@ -35,7 +35,6 @@
           text-anchor="middle"
           dominant-baseline="middle"
           fill="white"
-          font-size="36"
           font-weight="bold"
           pointer-events="none"
         >
@@ -51,7 +50,15 @@ import { gsap } from 'gsap';
 import { canUseDOM, DebounceTime, type TypeWithNull } from '@personal/shared';
 import { useElementSize, useThrottleFn } from '@vueuse/core';
 import clsx from 'clsx';
-import { onUnmounted, useTemplateRef, watch, shallowReactive, shallowRef, onMounted } from 'vue';
+import {
+  onUnmounted,
+  useTemplateRef,
+  watch,
+  shallowReactive,
+  shallowRef,
+  onMounted,
+  ref,
+} from 'vue';
 import HexItem, { type HexagonItem } from './hex-item.vue';
 
 const { direction, progress, trigger } = defineProps<{
@@ -109,80 +116,41 @@ const ShadowColor = '52, 211, 220';
 
 const currColor = shallowRef(Colors[0]);
 
-watch([() => progress, hexagons], ([newVal, currHexagons]) => {
-  // console.log('wat progress', newVal)
-  if (!loadingWrapperRef.value || !currHexagons.length) return;
-  ctx = gsap.context(() => {
-    const opacity = transformer(newVal);
-    const colorIndex = Math.round(opacity);
-    currColor.value = Colors[colorIndex];
-    gsap.to('.hexagon', {
-      duration: DebounceTime.middle / 1000,
-      stroke: `rgba(${currColor.value}, ${opacity})`,
-    });
+const closestCenterHexagon = ({
+  currWidth,
+  currHeight,
+  hexs,
+}: {
+  currWidth: number;
+  currHeight: number;
+  hexs: HexagonItem[];
+}) => {
+  const centerX = currWidth / 2;
+  const centerY = currHeight / 2;
+  let closest = hexs[0]!;
+  let minDist = Infinity;
 
-    gsap.to('.loading-mask rect', {
-      duration: DebounceTime.middle / 1000,
-      attr: {
-        transform: `scale(1 ${opacity})`,
-        fill: `rgb(${currColor.value})`,
-      },
-    });
-    if (newVal >= 100) {
-      currColor.value = ShadowColor;
-      const rgbShadowColor = `rgb(${ShadowColor})`;
-      gsap.to('.loading-mask rect', {
-        duration: DebounceTime.middle / 1000,
-        attr: {
-          fill: `rgb(${currColor.value})`,
-        },
-      });
-      gsap.to('.hexagon', {
-        duration: DebounceTime.slow / 1000,
-        // strokeWidth: 3,
-        stroke: rgbShadowColor,
-        filter: `drop-shadow(2px 2px 2px ${rgbShadowColor}) drop-shadow(-2px -2px 2px ${rgbShadowColor})`,
-        onComplete() {
-          requestAnimationFrame(() => {
-            gsap.to(['.loading-mask', '.hexagon-border'], {
-              duration: DebounceTime.middle / 1000,
-              scale: 0,
-              autoAlpha: 0,
-              transformOrigin: 'center',
-            });
-            gsap.to('.hexagon', {
-              scale: 0,
-              duration: DebounceTime.normal / 1000,
-              transformOrigin: 'center',
-              stagger: {
-                each: 0.01,
-                from: 'random',
-              },
-              onComplete() {
-                gsap.to(loadingWrapperRef.value, {
-                  duration: DebounceTime.quick / 1000,
-                  autoAlpha: 0,
-                  onComplete() {
-                    emit('onHide');
-                  },
-                });
-              },
-            });
-          });
-        },
-      });
+  for (const hex of hexs) {
+    const dx = hex.cx - centerX;
+    const dy = hex.cy - centerY;
+    const dist = dx * dx + dy * dy;
+    if (dist < minDist) {
+      minDist = dist;
+      closest = hex;
     }
-  }, loadingWrapperRef.value);
-});
+  }
+
+  return closest;
+};
 
 const handleResize = useThrottleFn(
   (width: number, height: number) => {
-    console.log('wat size', width, height);
+    // console.log('wat size', width, height);
     if (!width || !height) return;
     /**
      * 计算六边形的基础大小
      * 根据窗口的最小维度（宽度或高度）动态调整
-     * 确保六边形大小至少为20px，以保证视觉效果和交互可用性
+     * 确保六边形大小至少为40px，以保证视觉效果和交互可用性
      * @returns 六边形的基础大小（px）
      */
     const minDimension = Math.min(width, height);
@@ -238,28 +206,36 @@ const handleResize = useThrottleFn(
         // 生成当前六边形的六个顶点坐标
         const points = getHexagonPoints(xOffset, yOffset, hexSize);
 
-        const centered = row === Math.round((rows - 2) / 2) && col === Math.round((cols - 2) / 2);
-        if (centered) {
-          const x = xOffset - hexWidth / 2;
-          const y = yOffset - hexHeight / 2;
-          maskData = {
-            width: hexWidth,
-            height: hexHeight,
-            x,
-            y,
-            textX: x + hexWidth / 2,
-            textY: y + hexHeight / 2,
-            transformOrigin: `${x} ${y + hexHeight}`,
-          };
-          // console.log({ maskData });
-          centerPoints.value = points.map((p) => p.join(',')).join(' ');
-        }
         hexagons.value.push({
           key: `${row}-${col}`,
           points,
-          centered,
+          centered: false,
+          cx: xOffset,
+          cy: yOffset,
         });
       }
+    }
+
+    const centerHex = closestCenterHexagon({
+      currWidth: width,
+      currHeight: height,
+      hexs: hexagons.value,
+    });
+    if (centerHex) {
+      centerHex.centered = true;
+      const x = centerHex.cx - hexWidth / 2;
+      const y = centerHex.cy - hexHeight / 2;
+      maskData = {
+        width: hexWidth,
+        height: hexHeight,
+        x,
+        y,
+        textX: x + hexWidth / 2,
+        textY: y + hexHeight / 2,
+        transformOrigin: `${x} ${y + hexHeight}`,
+      };
+      // console.log({ maskData });
+      centerPoints.value = centerHex.points.map((p) => p.join(',')).join(' ');
     }
   },
   DebounceTime.middle,
@@ -277,6 +253,73 @@ const allAniCls = {
   down: 'animate__fadeInDown',
   right: 'animate__fadeInRight',
 };
+
+watch([() => progress, hexagons], ([newVal, currHexagons]) => {
+  // console.log('wat progress', newVal)
+  if (!loadingWrapperRef.value || !currHexagons.length) return;
+  ctx = gsap.context(() => {
+    const opacity = transformer(newVal);
+    const colorIndex = Math.round(opacity);
+    currColor.value = Colors[colorIndex];
+    gsap.to('.hexagon', {
+      duration: DebounceTime.middle / 1000,
+      stroke: `rgba(${currColor.value}, ${opacity})`,
+    });
+
+    gsap.to('.loading-mask rect', {
+      duration: DebounceTime.middle / 1000,
+      attr: {
+        transform: `scale(1 ${opacity})`,
+        fill: `rgb(${currColor.value})`,
+      },
+    });
+    if (newVal >= 100) {
+      // return;
+      currColor.value = ShadowColor;
+      const rgbShadowColor = `rgb(${ShadowColor})`;
+      gsap.to('.loading-mask rect', {
+        duration: DebounceTime.middle / 1000,
+        attr: {
+          fill: `rgb(${currColor.value})`,
+        },
+      });
+      gsap.to('.hexagon', {
+        duration: DebounceTime.slow / 1000,
+        // strokeWidth: 3,
+        stroke: rgbShadowColor,
+        filter: `drop-shadow(2px 2px 2px ${rgbShadowColor}) drop-shadow(-2px -2px 2px ${rgbShadowColor})`,
+        onComplete() {
+          requestAnimationFrame(() => {
+            gsap.to(['.loading-mask', '.hexagon-border'], {
+              duration: DebounceTime.middle / 1000,
+              scale: 0,
+              autoAlpha: 0,
+              transformOrigin: 'center',
+            });
+            gsap.to('.hexagon', {
+              scale: 0,
+              duration: DebounceTime.normal / 1000,
+              transformOrigin: 'center',
+              stagger: {
+                each: 0.01,
+                from: 'random',
+              },
+              onComplete() {
+                gsap.to(loadingWrapperRef.value, {
+                  duration: DebounceTime.normal / 1000,
+                  autoAlpha: 0,
+                  onComplete() {
+                    emit('onHide');
+                  },
+                });
+              },
+            });
+          });
+        },
+      });
+    }
+  }, loadingWrapperRef.value);
+});
 
 onMounted(() => {
   if (!loadingWrapperRef.value || !loadingRef.value) return;
@@ -302,5 +345,8 @@ onUnmounted(() => {
   inset: 0;
   z-index: 6;
   background: #1a1a2e;
+  .loading-mask text {
+    font-size: min(4vw, 36px);
+  }
 }
 </style>

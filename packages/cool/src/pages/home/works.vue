@@ -164,7 +164,7 @@ const playTween = () => {
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--spacing-36);
-  padding: 100px var(--spacing-20);
+  padding: 160px var(--spacing-20);
 
   &::after {
     content: '';

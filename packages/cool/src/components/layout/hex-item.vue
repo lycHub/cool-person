@@ -1,11 +1,25 @@
 <template>
   <polygon class="hexagon" :points="backgroundPoints" v-bind="$attrs" />
   <template v-if="data.centered">
-    <polyline ref="topBorderRef" class="hexagon-border" :points="topPoints" fill="none" stroke-width="4"
-      stroke-linecap="round" :stroke="polylineStroke" />
+    <polyline
+      ref="topBorderRef"
+      class="hexagon-border"
+      :points="topPoints"
+      fill="none"
+      stroke-width="4"
+      stroke-linecap="round"
+      :stroke="polylineStroke"
+    />
 
-    <polyline ref="bottomBorderRef" class="hexagon-border" :points="bottomPoints" fill="none" stroke-width="4"
-      stroke-linecap="round" :stroke="polylineStroke" />
+    <polyline
+      ref="bottomBorderRef"
+      class="hexagon-border"
+      :points="bottomPoints"
+      fill="none"
+      stroke-width="4"
+      stroke-linecap="round"
+      :stroke="polylineStroke"
+    />
   </template>
 </template>
 
@@ -20,6 +34,8 @@ export interface HexagonItem {
   key: string;
   points: [number, number][];
   centered: boolean;
+  cx: number;
+  cy: number;
 }
 
 gsap.registerPlugin(DrawSVGPlugin);

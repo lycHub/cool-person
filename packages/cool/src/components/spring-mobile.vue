@@ -10,7 +10,7 @@
 
     <path ref="springRef" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" />
 
-    <g ref="mobileRef" fill="none" style="cursor: grab;" @pointerdown="onPointerDown">
+    <g ref="mobileRef" fill="none" style="cursor: grab" @pointerdown="onPointerDown">
       <path
         fill="url(#SVGIDUMNdqL)"
         d="M-20 0 A6 6 0 0 0 -26 6 v70 A6 6 0 0 0 -20 82 h40 a6 6 0 0 0 6-6 v-70 A6 6 0 0 0 20 0z"
@@ -44,7 +44,8 @@ import {
   type TypeWithNull,
 } from '@personal/shared';
 import { isClient, useIntersectionObserver } from '@vueuse/core';
-import { ref, onMounted, onUnmounted, shallowReactive } from 'vue';
+import { ref, onMounted, onUnmounted, shallowReactive, useTemplateRef } from 'vue';
+import { logger } from '../utils';
 
 // 正常宽度400
 const OneMultipleWidth = 400;
@@ -70,9 +71,9 @@ const SPRING_DAMPING = 0.8; // 弹簧阻尼系数（增加阻尼，减少弹簧�
 let animationId: TypeWithNull<number> = null;
 
 // SVG元素引用
-const svgRef = ref<SVGSVGElement>();
-const springRef = ref<SVGPathElement>();
-const mobileRef = ref<SVGGElement>();
+const svgRef = useTemplateRef<SVGSVGElement>('svgRef');
+const springRef = useTemplateRef<SVGPathElement>('springRef');
+const mobileRef = useTemplateRef<SVGGElement>('mobileRef');
 
 const getStaticState = () => ({
   angle: 0, // 当前角度
@@ -182,7 +183,6 @@ const updatePhysics = () => {
   state.position.y = ANCHOR_Y + state.springLength * Math.cos(state.angle);
 };
 
-// 渲染函数
 const render = () => {
   if (mobileRef.value && springRef.value) {
     const angleDeg = radiansToDegrees(state.angle);
@@ -219,7 +219,7 @@ const animate = () => {
   if (isMoving()) {
     animationId = requestAnimationFrame(animate);
   } else if (animationId) {
-    console.log('clean ani');
+    logger.log('clean ani');
     state = getStaticState();
     cleanAnimate();
     updatePhysics();
@@ -246,7 +246,6 @@ const onPointerDown = (event: PointEventType) => {
   event.stopPropagation();
   const clientCoordinate = getClientCoordinateFromEvent(event);
   if (state.isDragging || !clientCoordinate) return;
-  // console.log('dragstart');
   cleanAnimate();
   state.isDragging = true;
   const target = event.target as SVGAElement;
@@ -327,13 +326,14 @@ const { stop } = isClient
   ? useIntersectionObserver(
       svgRef,
       ([entry]) => {
-        const intersectionRatio = Math.round(entry?.intersectionRatio || 0);
-        if (entry?.intersectionRatio === 1) {
+        const intersectionRatio = entry?.intersectionRatio || 0;
+        console.log({ intersectionRatio });
+        if (intersectionRatio === 1) {
           if (!visible) {
             svgRef.value!.style.visibility = 'visible';
+            visible = true;
             startAnimation();
           }
-        } else if (intersectionRatio === 0) {
         }
       },
       {
@@ -366,5 +366,6 @@ onUnmounted(() => {
 <style lang="scss" scoped>
 .spring-mobile {
   visibility: hidden;
+  overflow: visible;
 }
 </style>

@@ -100,19 +100,11 @@ onUnmounted(() => {
     }
 
     .mobile-svg {
-      border: 1px solid #666;
+      // border: 1px solid #666;
       font-size: var(--svg-width);
       position: absolute;
       right: 0;
-
-      // inset-inline-start: 0;
     }
   }
 }
-
-// @media screen and (width >=768px) {
-//   .sec-friends {
-//     flex-direction: row;
-//   }
-// }
 </style>

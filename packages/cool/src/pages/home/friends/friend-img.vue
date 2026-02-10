@@ -127,7 +127,7 @@ const onDragStart = (event: PointEventType) => {
     return;
   }
 
-  if (event.type === 'mousedown' && (event as MouseEvent).button !== 0) {
+  if (event.type === 'pointerdown' && (event as PointerEvent).button !== 0) {
     return;
   }
 
@@ -314,7 +314,7 @@ function clickSwitchImg(targetKey: string) {
   const rightTarget = target.nextElementSibling as HTMLImageElement;
   if (!leftTarget || !rightTarget) return;
   const isClickLeft = targetIndex < MidIndex;
-  console.log('isClickLeft', isClickLeft, target.alt);
+  // console.log('isClickLeft', isClickLeft, target.alt);
   switchTl = gsap.timeline({
     id: 'friendSwitchTl',
     duration: 0.3,
