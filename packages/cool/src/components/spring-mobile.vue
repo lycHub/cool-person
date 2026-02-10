@@ -44,7 +44,7 @@ import {
   type TypeWithNull,
 } from '@personal/shared';
 import { isClient, useIntersectionObserver } from '@vueuse/core';
-import { ref, onMounted, onUnmounted, shallowReactive, useTemplateRef } from 'vue';
+import { onMounted, onUnmounted, shallowReactive, useTemplateRef } from 'vue';
 import { logger } from '../utils';
 
 // 正常宽度400

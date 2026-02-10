@@ -50,15 +50,7 @@ import { gsap } from 'gsap';
 import { canUseDOM, DebounceTime, type TypeWithNull } from '@personal/shared';
 import { useElementSize, useThrottleFn } from '@vueuse/core';
 import clsx from 'clsx';
-import {
-  onUnmounted,
-  useTemplateRef,
-  watch,
-  shallowReactive,
-  shallowRef,
-  onMounted,
-  ref,
-} from 'vue';
+import { onUnmounted, useTemplateRef, watch, shallowReactive, shallowRef, onMounted } from 'vue';
 import HexItem, { type HexagonItem } from './hex-item.vue';
 
 const { direction, progress, trigger } = defineProps<{
