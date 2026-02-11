@@ -12,8 +12,10 @@
     "prepare": "husky",
     "commit": "cz && git push",
     "start": "pnpm -F=@personal/cool dev",
-    "build": "pnpm -F=@personal/cool build",
-    "preview": "pnpm -F=@personal/cool preview"
+    "preview": "pnpm -F=@personal/cool preview",
+    "build:ssr": "pnpm -F=@personal/cool build:ssr",
+    "dev:ssr": "pnpm -F=@personal/cool dev:ssr",
+    "preview:ssr": "pnpm -F=@personal/cool preview:ssr"
   },
   "config": {
     "commitizen": {
@@ -72,7 +74,7 @@
   },
   "dependencies": {
     "@faker-js/faker": "^9.7.0",
-    "axios": "^1.9.0",
+    "axios": "^1.13.2",
     "clsx": "^2.1.1",
     "consola": "^3.4.2",
     "dayjs": "^1.11.13",

@@ -1,15 +1,22 @@
-import { addCollection } from '@iconify/vue';
-import iconData from '@personal/icons/icon-data.json';
-import 'dayjs/locale/zh-cn';
 import { createPinia } from 'pinia';
-import { createApp } from 'vue';
-import 'animate.css';
+import { createSSRApp } from 'vue';
 
 import App from './App.vue';
-import router from './router';
-import './styles/index.scss';
+import { RootStoreProvideKey } from './utils';
 
-addCollection(iconData);
-const app = createApp(App);
-const pinia = createPinia();
-app.use(router).use(pinia).mount('#root');
+import type { SSRContext } from 'vue/server-renderer';
+
+export interface SsrRenderContext extends SSRContext {
+  manifest: Record<string, string[]>;
+  data: object;
+  originalUrl: string;
+  url: string;
+}
+
+export function createApp() {
+  const app = createSSRApp(App);
+  const pinia = createPinia();
+  app.provide(RootStoreProvideKey, pinia);
+
+  return { app, pinia };
+}

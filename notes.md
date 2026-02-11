@@ -1,7 +1,6 @@
 ### todo
 
-- 域名
-- 存储
+- menu handler
 - ssr, 包括meta;
 
 ### 参考

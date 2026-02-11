@@ -13,11 +13,11 @@
     />
     <meta name="keywords" content="Cool Person, 前端, 个人网站, 技术能力, 项目经历, 个人介绍" />
     <title>Cool Person</title>
+    <!--preload-links-->
   </head>
 
   <body>
-    <div id="root"></div>
-    <!-- <div id="teleport"></div> -->
-    <script type="module" src="/src/main.ts"></script>
+    <div id="root"><!--ssr-outlet--></div>
+    <script type="module" src="/src/entry-client.ts"></script>
   </body>
 </html>

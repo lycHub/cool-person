@@ -5,8 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build --mode prod",
-    "preview": "vite preview"
+    "build:spa": "vue-tsc -b && vite build --mode prod",
+    "preview": "vite preview",
+    "build:entry:client": "vue-tsc -b && vite build --outDir dist/client --ssrManifest",
+    "build:entry:server": "vite build --outDir dist/server --ssr src/entry-server.ts",
+    "build:ssr": "pnpm build:entry:client && pnpm build:entry:server",
+    "dev:ssr": "nodemon express/index.js",
+    "preview:ssr": "set NODE_ENV=production && node express/index.js"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
@@ -27,6 +32,10 @@
     "@types/node": "^24.10.0",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "express": "^5.2.1",
+    "fs-extra": "^11.3.3",
+    "nodemon": "^3.1.11",
+    "path-to-regexp": "^8.3.0",
     "typescript": "~5.9.3",
     "vite": "^7.2.2",
     "vite-plugin-vue-devtools": "^8.0.3",

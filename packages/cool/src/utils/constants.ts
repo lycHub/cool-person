@@ -1,4 +1,3 @@
-import { simpleFaker } from '@faker-js/faker';
 import { randomPick } from '@personal/shared';
 import { randomInt } from 'es-toolkit/math';
 
@@ -150,6 +149,10 @@ export const ContactWays: ContactWay[] = [
   },
 ];
 
+/* 
+startTime: simpleFaker.date.past(),
+    endTime: simpleFaker.date.recent(),
+*/
 export const Projects: ProjectInfo[] = [
   {
     name: '最强陆战车',
@@ -157,8 +160,8 @@ export const Projects: ProjectInfo[] = [
       '这个漂浮球非常有意思，表面的光滑刚好不会阻挡爬坡（只要建的好），浮力应该是海拉鲁最强的了。',
     coverPic: 'project-car.jpg',
     link: 'https://www.bilibili.com/video/BV1zh4y1o7PF',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-02-28'),
+    endTime: new Date('2026-02-1'),
   },
   {
     name: '不倒翁轰炸机',
@@ -166,63 +169,63 @@ export const Projects: ProjectInfo[] = [
       '通过将机体最大程度地向后倾倒，用机体把装在不倒翁上的炸弹推出并分离，就能进行轰炸啦！',
     coverPic: 'project-bdw.jpg',
     link: 'https://www.bilibili.com/video/BV1r63szHEsV',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
   },
   {
     name: '农用收割机',
     coverPic: 'project-harvester.jpg',
     link: 'https://www.bilibili.com/video/BV1Wa4y1u76q',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '海拉鲁农业不发达，必须要有收割机',
   },
   {
     name: '鬼火摩托',
     coverPic: 'project-motorcycle.jpg',
     link: 'https://www.bilibili.com/video/BV15c411M7fh',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '初代野炊摩托车',
   },
   {
     name: '巨神兵',
     coverPic: 'project-colossus.jpg',
     link: 'https://www.bilibili.com/video/BV15V4y1U7De',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '从此告别手动耍人马',
   },
   {
     name: '刑部尚书',
     coverPic: 'project-torture.png',
     link: 'https://www.bilibili.com/video/BV1iS411w7ce',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '老流氓刑拘',
   },
   {
     name: '老爷车',
     coverPic: 'project-vintage-car.jpg',
     link: 'https://www.bilibili.com/video/BV1o24y1K73J',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '海拉鲁科学界革命性成果',
   },
   {
     name: '激光坦克',
     coverPic: 'project-tank.jpg',
     link: 'https://www.bilibili.com/video/BV1VtWrzUECZ',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '陆地真理，又肉又有虚区',
   },
   {
     name: '一体式火箭',
     coverPic: 'project-rocket.jpg',
     link: 'https://www.bilibili.com/video/BV173bAeNEjR',
-    startTime: simpleFaker.date.past(),
-    endTime: simpleFaker.date.recent(),
+    startTime: new Date('2025-12-04'),
+    endTime: new Date('2026-02-11'),
     description: '火箭界的天花板',
   },
 ];

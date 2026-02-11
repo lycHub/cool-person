@@ -115,7 +115,8 @@ export default tseslint.config(
       'node_modules/**',
       'packages/icons/**',
       'packages/**/*.mock.ts',
-      '**/bacs/**'
+      '**/bacs/**',
+      '**/express/**',
     ]
   }
 );
