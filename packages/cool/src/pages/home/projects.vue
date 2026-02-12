@@ -1,7 +1,7 @@
 <template>
   <section class="sec sec-projects" ref="secProjectef">
     <div class="project-list" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
-      <project-row v-for="(item, index) of state.projects.slice(0, 5)" v-bind="{ ...item, index }"
+      <project-row v-for="(item, index) of (state.projects || []).slice(0, 5)" v-bind="{ ...item, index }"
         @mouseenter="onMouseEnter($event, item)" />
       <div class="project-pop">
         <img src="" alt="" />
