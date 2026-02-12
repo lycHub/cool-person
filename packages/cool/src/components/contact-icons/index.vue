@@ -1,12 +1,6 @@
 <template>
   <div class="contact-icons">
-    <custom-link
-      v-for="value of ContactWays"
-      class="link"
-      :to="value.link"
-      :title="value.name"
-      target="_blank"
-    >
+    <custom-link v-for="value of state.contactWays" class="link" :to="value.link" :title="value.name" target="_blank">
       <icon :class="clsx('ico ico-' + value.key)" :icon="'zs-' + value.icon" />
     </custom-link>
   </div>
@@ -15,8 +9,11 @@
 <script setup lang="ts">
 import clsx from 'clsx';
 import { Icon } from '@iconify/vue';
-import { ContactWays } from '../../utils';
 import CustomLink from '../custom-link/index.vue';
+import { useApiDataStore } from '../../store';
+
+const { state } = useApiDataStore();
+
 </script>
 
 <style lang="scss" scoped>

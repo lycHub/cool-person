@@ -1,14 +1,8 @@
 <template>
   <div class="friend-wrap">
     <div ref="imgWrapRef" class="friend-imgs">
-      <img
-        v-for="item of friendData"
-        class="friend-item"
-        :src="`${publicAssetsPrefix()}/images/${item}`"
-        :alt="item"
-        @pointerdown="onDragStart"
-        @click="clickSwitchImg(item)"
-      />
+      <img v-for="item of friendData" class="friend-item" :src="`${publicAssetsPrefix()}/images/${item}`" :alt="item"
+        @pointerdown="onDragStart" @click="clickSwitchImg(item)" />
     </div>
   </div>
 </template>
@@ -17,13 +11,14 @@
 import { gsap } from 'gsap';
 import Draggable from 'gsap/Draggable';
 import { onMounted, ref, useTemplateRef } from 'vue';
-import { Friends, publicAssetsPrefix } from '../../../utils';
+import { publicAssetsPrefix } from '../../../utils';
 import {
   getClientCoordinateFromEvent,
   moveToIndex,
   type PointEventType,
   type TypeWithNull,
 } from '@personal/shared';
+import { useApiDataStore } from '../../../store';
 gsap.registerPlugin(Draggable);
 
 const DragConfig: {
@@ -69,7 +64,8 @@ let moveEventController: TypeWithNull<AbortController> = null;
 let endEventController: TypeWithNull<AbortController> = null;
 let switchTl: TypeWithNull<gsap.core.Timeline> = null;
 
-const friendData = ref<string[]>(Friends);
+const { state } = useApiDataStore();
+const friendData = ref<string[]>(state.friends);
 
 const cleanup = () => {
   moveEventController?.abort();

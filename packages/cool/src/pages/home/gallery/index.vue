@@ -14,7 +14,8 @@ import GalleryDesc from './gallery-desc.vue';
 import GalleryScenes from './gallery-scenes.vue';
 import { vElementSize } from '@vueuse/components';
 import { useDebounceFn } from '@vueuse/core';
-import { publicAssetsPrefix, Sceneries } from '../../../utils';
+import { publicAssetsPrefix } from '../../../utils';
+import { useApiDataStore } from '../../../store';
 
 type GalleryImageElementType = HTMLImageElement & { showStatus: string };
 
@@ -31,7 +32,9 @@ const MaxImgWidth = 600;
 
 const secRef = useTemplateRef<HTMLElement>('secGalleryRef');
 
-const scenes = Sceneries.map((item, index) => {
+const { state } = useApiDataStore();
+
+const scenes = state.sceneries.map((item, index) => {
   const isOdd = index % 2 === 0;
   return {
     key: item,
@@ -64,7 +67,7 @@ const imgAniConfig = {
 };
 const threshold = [0, 0.25, 0.5, 0.75, 1];
 
-onMounted(() => {});
+onMounted(() => { });
 
 onUnmounted(() => {
   clear();

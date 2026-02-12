@@ -9,28 +9,16 @@
       <p class="title">My Amazing Stacks</p>
       <div class="stack-list" @mouseenter="pauseTween" @mouseleave="playTween">
         <div class="list-wrapper">
-          <ripple-box
-            v-for="item of stackOptions"
-            :key="item.label"
-            class="stack-box cursor-pointer"
-            :ripple-bg-color="item.rippleColor"
-          >
+          <ripple-box v-for="item of stackOptions" :key="item.label" class="stack-box cursor-pointer"
+            :ripple-bg-color="item.rippleColor">
             <span class="ripple-content">{{ item.label }}</span>
           </ripple-box>
-          <ripple-box
-            v-for="item of stackOptions"
-            :key="item.label"
-            class="stack-box cursor-pointer"
-            :ripple-bg-color="item.rippleColor"
-          >
+          <ripple-box v-for="item of stackOptions" :key="item.label" class="stack-box cursor-pointer"
+            :ripple-bg-color="item.rippleColor">
             <span class="ripple-content">{{ item.label }}</span>
           </ripple-box>
-          <ripple-box
-            v-for="item of stackOptions"
-            :key="item.label"
-            class="stack-box cursor-pointer"
-            :ripple-bg-color="item.rippleColor"
-          >
+          <ripple-box v-for="item of stackOptions" :key="item.label" class="stack-box cursor-pointer"
+            :ripple-bg-color="item.rippleColor">
             <span class="ripple-content">{{ item.label }}</span>
           </ripple-box>
         </div>
@@ -45,7 +33,7 @@ import { isClient, useDebounceFn, useResizeObserver } from '@vueuse/core';
 import { gsap } from 'gsap';
 import { onUnmounted, useTemplateRef, watch } from 'vue';
 import RippleBox from '../../components/ripple-box/index.vue';
-import { getStackOptions } from '../../utils';
+import { useApiDataStore } from '../../store';
 
 type Direction = 'left' | 'right';
 
@@ -56,15 +44,15 @@ const { direction } = defineProps<{
 // todo: 换数组
 const boxLen = 11;
 const BoxGap = 16;
-const StepLen = 4;
+const StepLen = 2;
 const secRef = useTemplateRef<HTMLElement>('secWorksRef');
 
 let currDirection: Direction = 'left';
 let currentX = 0;
 let moveCallback: () => void;
 
-const stackOptions = getStackOptions();
-// console.log({ stackOptions });
+const { state } = useApiDataStore();
+const stackOptions = state.stacks;
 
 const moveStackBoxes = () => {
   const boxQSelector = gsap.utils.selector(secRef.value);

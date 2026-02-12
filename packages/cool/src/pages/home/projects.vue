@@ -1,11 +1,8 @@
 <template>
   <section class="sec sec-projects" ref="secProjectef">
     <div class="project-list" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
-      <project-row
-        v-for="(item, index) of Projects.slice(0, 5)"
-        v-bind="{ ...item, index }"
-        @mouseenter="onMouseEnter($event, item)"
-      />
+      <project-row v-for="(item, index) of state.projects.slice(0, 5)" v-bind="{ ...item, index }"
+        @mouseenter="onMouseEnter($event, item)" />
       <div class="project-pop">
         <img src="" alt="" />
       </div>
@@ -21,17 +18,21 @@ import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { onUnmounted, useTemplateRef, watch } from 'vue';
 import { getDeviceTypeByUserAgent, removePx, type TypeWithNull } from '@personal/shared';
-import { Projects, publicAssetsPrefix } from '../../utils';
+import { publicAssetsPrefix } from '../../utils';
 import ProjectRow from '../../components/project-row/index.vue';
 import AllProjectTrigger from '../../components/all-project-trigger/index.vue';
-
 import type { ProjectInfo } from '../../typings/data';
+import { useApiDataStore } from '../../store';
 
 const secRef = useTemplateRef('secProjectef');
 
 const { scroller } = defineProps<{
   scroller: TypeWithNull<HTMLDivElement>;
 }>();
+
+const { state } = useApiDataStore();
+
+
 
 let ctx: TypeWithNull<gsap.Context> = null;
 let scrollTriggerHandle: TypeWithNull<ScrollTrigger> = null;
