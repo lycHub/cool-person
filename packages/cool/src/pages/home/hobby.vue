@@ -3,13 +3,8 @@
     <!-- 边界 -->
     <div class="content-wrap w-full h-full" v-element-size="onResize">
       <div class="title">My Daily Hobby</div>
-      <img
-        class="hobby-item"
-        v-for="item of HobbyOptions"
-        :data-name="item.name"
-        :data-angle="item.angle"
-        :src="`${publicAssetsPrefix()}/hobbies/${item.name}.svg`"
-      />
+      <img class="hobby-item" v-for="item of state.hobbys" :data-name="item.name" :data-angle="item.angle"
+        :src="`${publicAssetsPrefix()}/hobbies/${item.name}.svg`" />
     </div>
   </section>
 </template>
@@ -26,9 +21,10 @@ import {
   numberSort,
   type TypeWithNull,
 } from '@personal/shared';
-import { HobbyOptions, publicAssetsPrefix } from '../../utils';
+import { publicAssetsPrefix } from '../../utils';
 import { vElementSize } from '@vueuse/components';
 import { useDebounceFn } from '@vueuse/core';
+import { useApiDataStore } from '../../store';
 
 type HobbyNode = HTMLImageElement & { callback?: () => void };
 
@@ -37,6 +33,8 @@ gsap.registerPlugin(Inertia, Draggable);
 const { scroller } = defineProps<{
   scroller: TypeWithNull<HTMLDivElement>;
 }>();
+
+const { state } = useApiDataStore();
 
 const secRef = useTemplateRef('secHobbyRef');
 
@@ -186,14 +184,14 @@ const refreshAni = ({ width, height }: { width: number; height: number }) => {
         minPoint.x === maxPoint.x
           ? minPoint.x
           : gsap.utils.random(
-              ...(numberSort({ values: [minPoint.x, maxPoint.x] }) as [number, number]),
-            );
+            ...(numberSort({ values: [minPoint.x, maxPoint.x] }) as [number, number]),
+          );
       const y =
         minPoint.y === maxPoint.y
           ? minPoint.y
           : gsap.utils.random(
-              ...(numberSort({ values: [minPoint.y, maxPoint.y] }) as [number, number]),
-            );
+            ...(numberSort({ values: [minPoint.y, maxPoint.y] }) as [number, number]),
+          );
 
       item.dataset.x = x.toString();
       item.dataset.y = y.toString();
@@ -292,18 +290,14 @@ onUnmounted(() => {
   justify-content: center;
   background: linear-gradient(to right, var(--prc-yellow-8), var(--prc-orange-8));
   mask:
-    radial-gradient(50.39px at 50% 68.75px, var(--mask-color) 99%, var(--mask-color-tran) 101%)
-    calc(50% - 50px) 0 / 100px 51% repeat-x,
-    radial-gradient(50.39px at 50% -43.75px, var(--mask-color-tran) 99%, var(--mask-color) 101%) 50%
-    25px / 100px calc(51% - 25px) repeat-x,
+    radial-gradient(50.39px at 50% 68.75px, var(--mask-color) 99%, var(--mask-color-tran) 101%) calc(50% - 50px) 0 / 100px 51% repeat-x,
+    radial-gradient(50.39px at 50% -43.75px, var(--mask-color-tran) 99%, var(--mask-color) 101%) 50% 25px / 100px calc(51% - 25px) repeat-x,
     radial-gradient(50.39px at 50% calc(100% - 68.75px),
     var(--mask-color) 99%,
-    var(--mask-color-tran) 101%)
-    calc(50% - 50px) 100% / 100px 51% repeat-x,
+    var(--mask-color-tran) 101%) calc(50% - 50px) 100% / 100px 51% repeat-x,
     radial-gradient(50.39px at 50% calc(100% + 43.75px),
     var(--mask-color-tran) 99%,
-    var(--mask-color) 101%)
-    50% calc(100% - 25px) / 100px calc(51% - 25px) repeat-x;
+    var(--mask-color) 101%) 50% calc(100% - 25px) / 100px calc(51% - 25px) repeat-x;
 
   .content-wrap {
     position: relative;
