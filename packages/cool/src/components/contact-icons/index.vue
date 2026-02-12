@@ -1,6 +1,7 @@
 <template>
   <div class="contact-icons">
-    <custom-link v-for="value of state.contactWays" class="link" :to="value.link" :title="value.name" target="_blank">
+    <custom-link v-for="value of (state.contactWays || [])" class="link" :to="value.link" :title="value.name"
+      target="_blank">
       <icon :class="clsx('ico ico-' + value.key)" :icon="'zs-' + value.icon" />
     </custom-link>
   </div>

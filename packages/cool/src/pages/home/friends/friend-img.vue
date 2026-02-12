@@ -10,7 +10,7 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
 import Draggable from 'gsap/Draggable';
-import { onMounted, ref, useTemplateRef } from 'vue';
+import { onMounted, computed, useTemplateRef, watchEffect } from 'vue';
 import { publicAssetsPrefix } from '../../../utils';
 import {
   getClientCoordinateFromEvent,
@@ -65,7 +65,7 @@ let endEventController: TypeWithNull<AbortController> = null;
 let switchTl: TypeWithNull<gsap.core.Timeline> = null;
 
 const { state } = useApiDataStore();
-const friendData = ref<string[]>(state.friends);
+const friendData = computed(() => state.friends || []);
 
 const cleanup = () => {
   moveEventController?.abort();
@@ -74,9 +74,12 @@ const cleanup = () => {
   endEventController = null;
 };
 
-const MidIndex = Math.floor(friendData.value.length / 2);
+const MidIndex = computed(() => Math.floor(friendData.value.length / 2));
 
-let activeFriend = friendData.value[MidIndex]!;
+let activeFriend = '';
+watchEffect(() => {
+  activeFriend = friendData.value[MidIndex.value] || '';
+});
 
 const getTransformOrigin = (dir: 'left' | 'right') => `bottom ${dir}`;
 
@@ -87,14 +90,14 @@ const refreshImgLayout = () => {
     return;
   }
   imgItemsRef.forEach((img, index, arr) => {
-    if (index < MidIndex) {
+    if (index < MidIndex.value) {
       gsap.set(img, {
         transformOrigin: getTransformOrigin('left'),
         rotateZ: -DragConfig.staticAngle,
         scale: DragConfig.staticScale,
         zIndex: index,
       });
-    } else if (index > MidIndex) {
+    } else if (index > MidIndex.value) {
       gsap.set(img, {
         transformOrigin: getTransformOrigin('right'),
         rotateZ: DragConfig.staticAngle,
@@ -238,7 +241,7 @@ function moveHandler(event: PointEventType) {
 
   imgItemsRef.forEach((img, index, arr) => {
     if (![draggingTarget.alt, leftTarget?.alt, rightTarget?.alt].includes(img.alt)) {
-      const zIndex = index < MidIndex ? index : arr.length - 1 - index;
+      const zIndex = index < MidIndex.value ? index : arr.length - 1 - index;
       gsap.set(img, {
         zIndex,
       });
@@ -309,7 +312,7 @@ function clickSwitchImg(targetKey: string) {
   const leftTarget = target.previousElementSibling as HTMLImageElement;
   const rightTarget = target.nextElementSibling as HTMLImageElement;
   if (!leftTarget || !rightTarget) return;
-  const isClickLeft = targetIndex < MidIndex;
+  const isClickLeft = targetIndex < MidIndex.value;
   // console.log('isClickLeft', isClickLeft, target.alt);
   switchTl = gsap.timeline({
     id: 'friendSwitchTl',

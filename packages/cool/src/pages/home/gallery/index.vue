@@ -8,7 +8,7 @@
 <script setup lang="ts">
 import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { onMounted, onUnmounted, shallowReactive, useTemplateRef } from 'vue';
+import { computed, onMounted, onUnmounted, shallowReactive, useTemplateRef } from 'vue';
 import { DebounceTime, type TypeWithNull } from '@personal/shared';
 import GalleryDesc from './gallery-desc.vue';
 import GalleryScenes from './gallery-scenes.vue';
@@ -34,13 +34,15 @@ const secRef = useTemplateRef<HTMLElement>('secGalleryRef');
 
 const { state } = useApiDataStore();
 
-const scenes = state.sceneries.map((item, index) => {
-  const isOdd = index % 2 === 0;
-  return {
-    key: item,
-    path: `${publicAssetsPrefix()}/images/${item}`,
-    rotate: isOdd ? -Angle : Angle,
-  };
+const scenes = computed(() => {
+  return (state.sceneries || []).map((item, index) => {
+    const isOdd = index % 2 === 0;
+    return {
+      key: item,
+      path: `${publicAssetsPrefix()}/images/${item}`,
+      rotate: isOdd ? -Angle : Angle,
+    };
+  });
 });
 
 const imgSize = shallowReactive({

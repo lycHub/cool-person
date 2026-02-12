@@ -31,7 +31,7 @@
 import { DebounceTime } from '@personal/shared';
 import { isClient, useDebounceFn, useResizeObserver } from '@vueuse/core';
 import { gsap } from 'gsap';
-import { onUnmounted, useTemplateRef, watch } from 'vue';
+import { computed, onUnmounted, useTemplateRef, watch } from 'vue';
 import RippleBox from '../../components/ripple-box/index.vue';
 import { useApiDataStore } from '../../store';
 
@@ -52,7 +52,7 @@ let currentX = 0;
 let moveCallback: () => void;
 
 const { state } = useApiDataStore();
-const stackOptions = state.stacks;
+const stackOptions = computed(() => state.stacks || []);
 
 const moveStackBoxes = () => {
   const boxQSelector = gsap.utils.selector(secRef.value);
