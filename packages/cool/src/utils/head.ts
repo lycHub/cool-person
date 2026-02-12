@@ -1,6 +1,8 @@
 import type { UseSeoMetaInput } from '@unhead/vue';
 
-export const AppName = 'Cool Person';
+export const AppName = import.meta.env.VITE_APPNAME;
+export const SiteUrl = import.meta.env.VITE_SITEURL;
+
 export function getInitHead() {
   return [
     {
@@ -26,12 +28,12 @@ export const CommonSeoMeta: UseSeoMetaInput = {
   colorScheme: 'light dark',
   ogTitle: '动效流简历模板 | ' + AppName,
   ogDescription: '充分利用动效流简历模板，快速构建专业的个人简历。',
-  ogImage: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=630&fit=crop',
+  ogImage: `${SiteUrl}/images/site-cover.png`,
   ogImageAlt: 'Code on a computer screen showing JavaScript',
   ogImageWidth: 1200,
   ogImageHeight: 630,
   ogType: 'website',
-  ogUrl: 'https://example.com/blog/build-better-web-apps',
+  ogUrl: SiteUrl,
   ogSiteName: AppName,
   ogLocale: 'zh_CN',
 };

@@ -11,8 +11,6 @@
     "stylelint:fix": "stylelint packages/*/src/**/*.{scss,css,vue} --fix --max-warnings 0",
     "prepare": "husky",
     "commit": "cz && git push",
-    "start": "pnpm -F=@personal/cool dev",
-    "preview": "pnpm -F=@personal/cool preview",
     "build:ssr": "pnpm -F=@personal/cool build:ssr",
     "dev:ssr": "pnpm -F=@personal/cool dev:ssr",
     "server:ssr": "pnpm -F=@personal/cool server:ssr"
