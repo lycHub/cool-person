@@ -8,8 +8,13 @@
 <script setup lang="ts">
 import { onMounted, useTemplateRef } from 'vue';
 import SpringMobile from '../../components/spring-mobile.vue';
+import { useHead } from '@unhead/vue';
 
 const pageRef = useTemplateRef<HTMLDivElement>('pageRef');
+
+useHead({
+  title: '我的项目',
+});
 
 onMounted(() => {
   if (!pageRef.value) return;

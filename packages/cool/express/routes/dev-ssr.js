@@ -6,6 +6,7 @@ import fse from 'fs-extra';
 // import { match } from 'path-to-regexp';
 import { RouteServerMap } from '../route-apis/index.js';
 import { buildMultiPath } from '../utils/path.js';
+import { transformHtmlTemplate } from '@unhead/vue/server';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -33,7 +34,7 @@ async function run() {
 
   router.get('*all', async (req, res, next) => {
     const originalUrl = req.originalUrl;
-    const originHtml = fse.readFileSync(join(__dirname, '../../index.html'), 'utf-8');
+    let originHtml = fse.readFileSync(join(__dirname, '../../index.html'), 'utf-8');
     console.log('originalUrl>>>', originalUrl);
 
     let loadedData = {};
@@ -63,13 +64,15 @@ async function run() {
     // console.log('loadedData>>>>>>>', loadedData);
 
     try {
-      const htmlStr = await vite.transformIndexHtml(originalUrl, originHtml);
       const { render } = await vite.ssrLoadModule(join(__dirname, '../../src/entry-server.ts'));
-      const stream = await render({
+      const { stream, head } = await render({
         originalUrl,
         url: req.url,
         data: loadedData,
       });
+
+      const htmlWithHead = await transformHtmlTemplate(head, originHtml);
+      const htmlStr = await vite.transformIndexHtml(originalUrl, htmlWithHead);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       const [templateStart, templateEnd] = htmlStr.split('<!--ssr-outlet-->');
       res.write(templateStart);

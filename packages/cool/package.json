@@ -11,12 +11,13 @@
     "build:entry:server": "vite build --outDir dist/server --ssr src/entry-server.ts",
     "build:ssr": "pnpm build:entry:client && pnpm build:entry:server",
     "dev:ssr": "nodemon express/index.js",
-    "preview:ssr": "set NODE_ENV=production && node express/index.js"
+    "server:ssr": "set NODE_ENV=production && node express/index.js"
   },
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "@personal/icons": "workspace:^0.0.1",
     "@personal/shared": "workspace:^0.0.1",
+    "@unhead/vue": "^2.1.4",
     "@vueuse/components": "^14.0.0",
     "@vueuse/core": "^14.0.0",
     "animate.css": "^4.1.1",
@@ -30,6 +31,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.0",
+    "@unhead/addons": "^2.1.4",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
     "express": "^5.2.1",

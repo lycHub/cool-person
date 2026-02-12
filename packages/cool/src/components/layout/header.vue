@@ -19,7 +19,7 @@ import {
   type PointEventType,
   type Theme,
 } from '@personal/shared';
-import { usePreferredDark, useToggle, type ConfigurableWindow } from '@vueuse/core';
+import { useToggle, type ConfigurableWindow } from '@vueuse/core';
 import { onMounted } from 'vue';
 import { storage, StorageKeys, ThemeToggleDuration, toggleStorage } from '../../utils';
 import ThemeBtn from '../theme-btn/index.vue';
@@ -30,7 +30,6 @@ import CustomLink from '../custom-link/index.vue';
 export interface UsePreferredDarkProps extends ConfigurableWindow {}
 
 const DefaultTheme = ThemeValue.dark;
-const preferredDark = usePreferredDark();
 const [currentTheme, toggle] = useToggle(DefaultTheme, {
   truthyValue: ThemeValue.dark,
   falsyValue: ThemeValue.light,
@@ -47,7 +46,7 @@ const getInitialTheme = async () => {
   if (storageTheme) {
     return storageTheme;
   }
-  return preferredDark.value ? ThemeValue.dark : DefaultTheme;
+  return DefaultTheme;
 };
 
 onMounted(async () => {

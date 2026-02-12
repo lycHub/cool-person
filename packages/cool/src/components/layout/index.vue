@@ -32,6 +32,8 @@ import { isClient, useInterval } from '@vueuse/core';
 import { useLoadingStore } from '../../store';
 import { emptyFunc } from '@personal/shared';
 import type { DrawerRootProps } from 'vaul-vue';
+import { useHead, useSeoMeta } from '@unhead/vue';
+import { getSeoMeta } from '../../utils';
 
 let DrawerRoot: Component<DrawerRootProps> = { render: emptyFunc };
 let DrawerOverlay: Component<PublicProps> = { render: () => emptyFunc };
@@ -44,6 +46,12 @@ if (isClient) {
     DrawerContent = mod.DrawerContent;
   });
 }
+
+useHead({
+  title: '首页',
+});
+
+useSeoMeta(getSeoMeta());
 
 const drawerOpen = shallowRef(false);
 

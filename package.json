@@ -15,7 +15,7 @@
     "preview": "pnpm -F=@personal/cool preview",
     "build:ssr": "pnpm -F=@personal/cool build:ssr",
     "dev:ssr": "pnpm -F=@personal/cool dev:ssr",
-    "preview:ssr": "pnpm -F=@personal/cool preview:ssr"
+    "server:ssr": "pnpm -F=@personal/cool server:ssr"
   },
   "config": {
     "commitizen": {

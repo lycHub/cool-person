@@ -1,7 +1,9 @@
 import { renderToNodeStream } from 'vue/server-renderer';
+import { createHead } from '@unhead/vue/server';
 
-import router from './router/ssr';
+import { getInitHead } from './utils/head';
 import { createApp, type SsrRenderContext } from './main';
+import router from './router/ssr';
 
 export function render(ctx: SsrRenderContext) {
   // console.log('render ctx>>', {
@@ -13,6 +15,17 @@ export function render(ctx: SsrRenderContext) {
   if (ctx.originalUrl) {
     router.push(ctx.originalUrl);
   }
-  app.use(router).use(pinia);
-  return router.isReady().then(() => renderToNodeStream(app, ctx));
+
+  const head = createHead({
+    init: getInitHead(),
+  });
+
+  app.use(router).use(pinia).use(head);
+
+  return router.isReady().then(() => {
+    return {
+      stream: renderToNodeStream(app, ctx),
+      head,
+    };
+  });
 }
