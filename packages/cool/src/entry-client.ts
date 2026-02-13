@@ -17,6 +17,14 @@ const head = createHead({
 });
 app.use(router).use(pinia).use(head);
 
+// 完整 URL
+// const currentUrl = window.location.pathname + window.location.search
+// router.push(currentUrl)
+
 router.isReady().then(() => {
+  if (window.__PINIA_STATE__) {
+    pinia.state.value = window.__PINIA_STATE__;
+    delete window.__PINIA_STATE__;
+  }
   app.mount('#root');
 });

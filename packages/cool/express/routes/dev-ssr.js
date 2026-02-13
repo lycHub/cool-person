@@ -7,6 +7,7 @@ import { RouteServerMap } from '../route-apis/index.js';
 import { buildMultiPath } from '../utils/path.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
+import { getDefaultValue } from '../utils/constants.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -37,45 +38,22 @@ async function run() {
     }
 
     let originHtml = fse.readFileSync(join(__dirname, '../../index.html'), 'utf-8');
-    
-
-    let loadedData = {};
-
-    // const matchRouteInfo = Object.keys(RouteServerMap)
-    //   .map((item) => {
-    //     const fn = match(item);
-    //     const matchInfo = fn(originalUrl);
-    //     return {
-    //       apiKey: item,
-    //       key: matchInfo ? buildMultiPath(matchInfo.path) : item,
-    //       matchInfo,
-    //     };
-    //   })
-    //   .filter((item) => item.matchInfo)[0];
-
-    // // console.log("matchRouteKey :>> ", matchRouteInfo?.key);
-    // if (matchRouteInfo) {
-    //   const serverAction = RouteServerMap[matchRouteInfo.apiKey];
-    //   req.params.id = matchRouteInfo.matchInfo
-    //     ? matchRouteInfo.matchInfo.params?.id
-    //     : "";
-    //   const data = await serverAction(req);
-    //   loadedData = { [matchRouteInfo.key]: data };
-    // }
-
-    // console.log('loadedData>>>>>>>', loadedData);
 
     try {
       const { render } = await vite.ssrLoadModule(join(__dirname, '../../src/entry-server.ts'));
-      const { stream, head } = await render({
+      const { stream, head, piniaState } = await render({
         originalUrl,
         url: req.url,
-        data: loadedData,
+        apiData: getDefaultValue(),
       });
-      if (!stream || !head) {
+      if (!stream || !head || !piniaState) {
         return next();
       }
-console.log('SSR rendering>>>', originalUrl);
+      console.log('SSR rendering>>>', originalUrl);
+      originHtml = originHtml.replace(
+        '<!--pinia-state-->',
+        `<script>window.__PINIA_STATE__ = ${piniaState}</script>`,
+      );
       const htmlWithHead = await transformHtmlTemplate(head, originHtml);
       const htmlStr = await vite.transformIndexHtml(originalUrl, htmlWithHead);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');

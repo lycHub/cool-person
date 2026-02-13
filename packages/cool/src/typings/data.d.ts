@@ -5,6 +5,16 @@ export interface MenuItem {
   link: string;
 }
 
+export interface Stack {
+  label: string;
+  rippleColor: string;
+}
+
+export interface Hobby {
+  name: string;
+  angle: number;
+}
+
 export interface ContactWay {
   key: string;
   name: string;

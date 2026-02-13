@@ -11,6 +11,9 @@ importers:
       '@faker-js/faker':
         specifier: ^9.7.0
         version: 9.9.0
+      '@nuxt/devalue':
+        specifier: ^2.0.2
+        version: 2.0.2
       axios:
         specifier: ^1.13.2
         version: 1.13.2
@@ -1634,6 +1637,9 @@ packages:
   '@nodelib/fs.walk@1.2.8':
     resolution: {integrity: sha512-oGB+UxlgWcgQkgwo8GcEGwemoTFt3FIO9ababBmaGwXIoBKZ+GTy0pP185beGg7Llih/NSHSV2XAs1lnznocSg==}
     engines: {node: '>= 8'}
+
+  '@nuxt/devalue@2.0.2':
+    resolution: {integrity: sha512-GBzP8zOc7CGWyFQS6dv1lQz8VVpz5C2yRszbXufwG/9zhStTIH50EtD87NmWbTMwXDvZLNg8GIpb1UFdH93JCA==}
 
   '@nuxt/kit@3.21.1':
     resolution: {integrity: sha512-QORZRjcuTKgo++XP1Pc2c2gqwRydkaExrIRfRI9vFsPA3AzuHVn5Gfmbv1ic8y34e78mr5DMBvJlelUaeOuajg==}
@@ -8073,6 +8079,8 @@ snapshots:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.20.1
+
+  '@nuxt/devalue@2.0.2': {}
 
   '@nuxt/kit@3.21.1':
     dependencies:

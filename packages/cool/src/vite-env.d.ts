@@ -10,3 +10,7 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+interface Window {
+  __PINIA_STATE__?: Record<string, Record<PropertyKey, unknown>>;
+}

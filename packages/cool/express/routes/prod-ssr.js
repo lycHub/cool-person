@@ -7,6 +7,7 @@ import { fileURLToPath } from 'node:url';
 import { renderPreloadLinks } from '../utils/preload.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
+import { getDefaultValue } from '../utils/constants.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -25,22 +26,26 @@ async function run() {
       return next();
     }
 
-    const originHtml = fse.readFileSync(join(__dirname, '../../dist/client/index.html'), 'utf-8');
-
-    const loadedData = {};
+    let originHtml = fse.readFileSync(join(__dirname, '../../dist/client/index.html'), 'utf-8');
 
     const ctx = {
       originalUrl,
       url: req.url,
-      data: loadedData,
+      apiData: getDefaultValue(),
       manifest,
     };
 
     try {
-      const { stream, head } = await render(ctx);
-      if (!stream || !head) {
+      const { stream, head, piniaState } = await render(ctx);
+      if (!stream || !head || !piniaState) {
         return next();
       }
+
+      originHtml = originHtml.replace(
+        '<!--pinia-state-->',
+        `<script>window.__PINIA_STATE__ = ${piniaState}</script>`,
+      );
+
       let htmlStr = await transformHtmlTemplate(head, originHtml);
 
       res.setHeader('Content-Type', 'text/html; charset=utf-8');

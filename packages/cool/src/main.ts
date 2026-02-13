@@ -5,10 +5,11 @@ import App from './App.vue';
 // import { RootStoreProvideKey } from './utils';
 
 import type { SSRContext } from 'vue/server-renderer';
+import type { ApiData } from './store';
 
 export interface SsrRenderContext extends SSRContext {
   manifest: Record<string, string[]>;
-  data: object;
+  apiData: ApiData;
   originalUrl: string;
   url: string;
 }

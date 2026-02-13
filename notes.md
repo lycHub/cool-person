@@ -1,7 +1,10 @@
 ### todo
 
 - menu handler
-- ssr, 包括meta;
+- 置顶
+- projects
+- 优化图片文案
+- 部署ssr?
 
 ### 参考
 
