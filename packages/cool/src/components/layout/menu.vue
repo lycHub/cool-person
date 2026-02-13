@@ -2,25 +2,15 @@
   <div class="layout-menu h-full" ref="menuRef">
     <DrawerTitle class="drawer-title none" />
     <div class="layout-menu-items">
-      <DrawerDescription
-        v-for="value of MenuItems"
-        :key="value.key"
-        as-child
-        @click="$emit('onClickLink')"
-      >
-        <custom-link
-          class="menu-item"
-          exact-active-class="exact-active"
-          :data-text="value.nameEn"
-          :to="value.link"
-        >
+      <DrawerDescription v-for="value of MenuItems" :key="value.key" as-child @click="$emit('onClickLink')">
+        <custom-link class="menu-item" active-class="exact-active" :data-text="value.nameEn" :to="value.link">
           {{ value.nameEn }}
         </custom-link>
       </DrawerDescription>
     </div>
   </div>
 </template>
-
+          exact-active-class="exact-active"
 <script setup lang="ts">
 import { gsap } from 'gsap';
 import { DrawerDescription, DrawerTitle } from 'vaul-vue';

@@ -3,10 +3,10 @@ import { createServer } from 'vite';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import fse from 'fs-extra';
-// import { match } from 'path-to-regexp';
 import { RouteServerMap } from '../route-apis/index.js';
 import { buildMultiPath } from '../utils/path.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
+import { shouldSkipSSR } from '../utils/ssr-filter.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -24,18 +24,20 @@ async function run() {
     appType: 'custom',
   });
 
-  // 将 vite 的 connect 实例作中间件使用
   router.use(vite.middlewares);
 
   const __filename = fileURLToPath(import.meta.url);
   const __dirname = dirname(__filename);
 
-  // router.get("/api/*", async (req, res, next) => {});
-
   router.get('*all', async (req, res, next) => {
     const originalUrl = req.originalUrl;
+
+    if (shouldSkipSSR(originalUrl)) {
+      return next();
+    }
+
     let originHtml = fse.readFileSync(join(__dirname, '../../index.html'), 'utf-8');
-    console.log('originalUrl>>>', originalUrl);
+    
 
     let loadedData = {};
 
@@ -70,13 +72,16 @@ async function run() {
         url: req.url,
         data: loadedData,
       });
-
+      if (!stream || !head) {
+        return next();
+      }
+console.log('SSR rendering>>>', originalUrl);
       const htmlWithHead = await transformHtmlTemplate(head, originHtml);
       const htmlStr = await vite.transformIndexHtml(originalUrl, htmlWithHead);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       const [templateStart, templateEnd] = htmlStr.split('<!--ssr-outlet-->');
       res.write(templateStart);
-      stream.pipe(res, { end: false }); // 暂时不结束响应，后续还要输出模板尾部
+      stream.pipe(res, { end: false });
 
       stream.on('error', (err) => {
         console.error(err);

@@ -3,18 +3,11 @@ import { createHead } from '@unhead/vue/server';
 
 import { getInitHead } from './utils/head';
 import { createApp, type SsrRenderContext } from './main';
-import router from './router/ssr';
+import { createRouterInstance } from './router/ssr';
 
-export function render(ctx: SsrRenderContext) {
-  // console.log('render ctx>>', {
-  //   originalUrl: ctx?.originalUrl,
-  //   url: ctx?.url,
-  // });
+export async function render(ctx: SsrRenderContext) {
   const { app, pinia } = createApp();
-
-  if (ctx.originalUrl) {
-    router.push(ctx.originalUrl);
-  }
+  const router = createRouterInstance();
 
   const head = createHead({
     init: getInitHead(),
@@ -22,10 +15,21 @@ export function render(ctx: SsrRenderContext) {
 
   app.use(router).use(pinia).use(head);
 
-  return router.isReady().then(() => {
+  router.push(ctx.originalUrl);
+
+  await router.isReady();
+
+  const matchedRoute = router.currentRoute.value;
+
+  if (!matchedRoute.matched.length) {
     return {
-      stream: renderToNodeStream(app, ctx),
-      head,
+      stream: null,
+      head: null,
     };
-  });
+  }
+
+  return {
+    stream: renderToNodeStream(app, ctx),
+    head,
+  };
 }

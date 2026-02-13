@@ -6,6 +6,7 @@ import fse from 'fs-extra';
 import { fileURLToPath } from 'node:url';
 import { renderPreloadLinks } from '../utils/preload.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
+import { shouldSkipSSR } from '../utils/ssr-filter.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -20,6 +21,10 @@ async function run() {
   router.get('*all', async (req, res, next) => {
     const originalUrl = req.originalUrl;
 
+    if (shouldSkipSSR(originalUrl)) {
+      return next();
+    }
+
     const originHtml = fse.readFileSync(join(__dirname, '../../dist/client/index.html'), 'utf-8');
 
     const loadedData = {};
@@ -33,13 +38,15 @@ async function run() {
 
     try {
       const { stream, head } = await render(ctx);
+      if (!stream || !head) {
+        return next();
+      }
       let htmlStr = await transformHtmlTemplate(head, originHtml);
 
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       if (ctx.modules && manifest) {
         const preloadLinks = renderPreloadLinks(ctx.modules, manifest);
         htmlStr = htmlStr.replace('<!--preload-links-->', preloadLinks);
-        // console.log('preloadLinks>>>', preloadLinks);
       }
 
       const [templateStart, templateEnd] = htmlStr.split('<!--ssr-outlet-->');
