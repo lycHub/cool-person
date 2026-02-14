@@ -21,6 +21,11 @@ export const allRoutes: RouterOptions['routes'] = [
         path: 'projects',
         component: () => import('../pages/projects/index.vue'),
       },
+      {
+        name: 'gallery',
+        path: 'gallery',
+        component: () => import('../pages/gallery/index.vue'),
+      },
     ],
   },
 ];

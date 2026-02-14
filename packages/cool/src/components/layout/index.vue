@@ -30,7 +30,7 @@ const drawerOpen = shallowRef(false);
 const menuStatus = shallowRef<MenuStatus>('inactive');
 
 const onDrawerChange = (event: boolean) => {
-  console.log('onDrawerChange', event);
+  // console.log('onDrawerChange', event);
   drawerOpen.value = event;
   menuStatus.value = event ? 'active' : 'inactive';
 };
@@ -61,7 +61,7 @@ const { pause, reset, resume } = useInterval(loadingStore.state.speed, {
 });
 
 watch(() => loadingStore.state.status, (newVal) => {
-  console.log('watch loadingStore.state.status', newVal)
+  // console.log('watch loadingStore.state.status', newVal)
   if (newVal === 'loading') {
     resume()
     loadingVisible.value = true;
@@ -93,6 +93,8 @@ onMounted(() => {
 
 <style lang="scss">
 .layout {
+  --header-height: 84px;
+
   position: relative;
   display: flex;
   flex-direction: column;
@@ -115,4 +117,5 @@ onMounted(() => {
   width: min(100%, 800px);
   z-index: 4;
 }
+
 </style>

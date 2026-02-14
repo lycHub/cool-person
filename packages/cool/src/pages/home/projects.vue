@@ -14,15 +14,13 @@
 </template>
 
 <script setup lang="ts">
-import { gsap } from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { onUnmounted, useTemplateRef, watch } from 'vue';
-import { getDeviceTypeByUserAgent, removePx, type TypeWithNull } from '@personal/shared';
-import { publicAssetsPrefix } from '../../utils';
+import {  type TypeWithNull } from '@personal/shared';
 import ProjectRow from '../../components/project-row/index.vue';
 import AllProjectTrigger from '../../components/all-project-trigger/index.vue';
-import type { ProjectInfo } from '../../typings/data';
 import { useApiDataStore } from '../../store';
+import { useHoverProjects } from '../../hooks';
 
 const secRef = useTemplateRef('secProjectef');
 
@@ -30,9 +28,8 @@ const { scroller } = defineProps<{
   scroller: TypeWithNull<HTMLDivElement>;
 }>();
 
+
 const { state } = useApiDataStore();
-
-
 
 let ctx: TypeWithNull<gsap.Context> = null;
 let scrollTriggerHandle: TypeWithNull<ScrollTrigger> = null;
@@ -67,85 +64,8 @@ const initPinAni = (scrollerVal: TypeWithNull<HTMLDivElement>) => {
 };
 watch(() => scroller, initPinAni);
 
-let moveMeta: TypeWithNull<{
-  startX: number;
-  startY: number;
-  realTimeX: number;
-  realTimeY: number;
-  lastTime: number;
-}> = null;
+const { imgSize, onMouseEnter, onMouseMove, onMouseLeave } = useHoverProjects({ container: secRef });
 
-const imgSize = {
-  width: '400px',
-  height: '260px',
-};
-
-const onMouseEnter = (event: MouseEvent, project: ProjectInfo) => {
-  if (getDeviceTypeByUserAgent() !== 'desktop') return;
-  const secSelector = gsap.utils.selector(secRef.value);
-  const targetEl = secSelector('.project-pop')[0];
-  if (!targetEl) return;
-  const imgEl = targetEl.querySelector('img')! as HTMLImageElement;
-  imgEl.src = `${publicAssetsPrefix()}/images/${project.coverPic}`;
-  imgEl.alt = project.name;
-  if (moveMeta) return;
-  moveMeta = {
-    startX: event.clientX,
-    startY: event.clientY,
-    realTimeX: event.clientX,
-    realTimeY: event.clientY,
-    lastTime: Date.now(),
-  };
-
-  const listWrap = secSelector<HTMLDivElement>('.project-list')[0]!;
-  const { left, top } = listWrap.getBoundingClientRect();
-  const x = moveMeta.startX - left - removePx(imgSize.width) / 2;
-  const y = moveMeta.startY - top - removePx(imgSize.height) / 2;
-  gsap.set(targetEl, { x, y });
-  gsap.to(targetEl, { autoAlpha: 1, scale: 1, duration: 0.3 });
-};
-
-let xTo: TypeWithNull<gsap.QuickToFunc> = null;
-let yTo: TypeWithNull<gsap.QuickToFunc> = null;
-const Duration = 0.6;
-
-const onMouseMove = (event: MouseEvent) => {
-  if (!moveMeta) return;
-  const secSelector = gsap.utils.selector(secRef.value);
-  const listWrap = secSelector<HTMLDivElement>('.project-list')[0]!;
-  const targetEl = secSelector('.project-pop')[0]!;
-  const currentTime = Date.now();
-  moveMeta.realTimeX = event.clientX;
-  moveMeta.realTimeY = event.clientY;
-  moveMeta.lastTime = currentTime;
-  const { left, top } = listWrap.getBoundingClientRect();
-  const x = event.clientX - left - removePx(imgSize.width) / 2;
-  const y = event.clientY - top - removePx(imgSize.height) / 2;
-
-  if (!xTo || !yTo) {
-    xTo = gsap.quickTo(targetEl, 'x', { duration: Duration });
-    yTo = gsap.quickTo(targetEl, 'y', { duration: Duration });
-  }
-
-  xTo(x);
-  yTo(y);
-};
-
-const onMouseLeave = () => {
-  const secSelector = gsap.utils.selector(secRef.value);
-  const targetEl = secSelector('.project-pop')[0]!;
-  gsap.to(targetEl, {
-    autoAlpha: 0,
-    scale: 0,
-    duration: 0.3,
-    onComplete: () => {
-      moveMeta = null;
-      gsap.killTweensOf(targetEl);
-    },
-  });
-  xTo = null;
-  yTo = null;
-};
 </script>
 
 <style scoped lang="scss">
