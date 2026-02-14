@@ -1,8 +1,8 @@
 <template>
   <div class="layout-menu h-full" ref="menuRef">
-    <DrawerTitle class="drawer-title none" />
+    <drawer-title class="drawer-title none" />
     <div class="layout-menu-items">
-      <DrawerDescription
+      <drawer-description
         v-for="value of MenuItems"
         :key="value.key"
         as-child
@@ -16,7 +16,7 @@
         >
           {{ value.nameEn }}
         </custom-link>
-      </DrawerDescription>
+      </drawer-description>
     </div>
   </div>
 </template>

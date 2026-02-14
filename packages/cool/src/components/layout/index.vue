@@ -3,12 +3,12 @@
     <rotate-bg-shape />
     <layout-header :menuStatus="menuStatus" @onClickMenu="toggleMenu" />
     <slot />
-    <DrawerRoot handle-only direction="right" :open="drawerOpen" z-index="3">
-      <DrawerOverlay class="drawer-overlay" @click="onDrawerChange(false)" />
-      <DrawerContent class="drawer-content">
+    <drawer-root direction="right" :open="drawerOpen" z-index="3" @close="onDrawerChange(false)">
+      <drawer-overlay class="drawer-overlay" @click="onDrawerChange(false)" />
+      <drawer-content class="drawer-content">
         <Menu @onClickLink="onDrawerChange(false)" />
-      </DrawerContent>
-    </DrawerRoot>
+      </drawer-content>
+    </drawer-root>
     <loading v-if="loadingVisible" class="full-loading" :direction="loadingStore.state.direction" :progress="progress"
       :trigger="loadingStore.state.trigger" @onHide="onHideLoading" />
   </div>
