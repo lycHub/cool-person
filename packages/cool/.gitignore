@@ -9,7 +9,9 @@ lerna-debug.log*
 
 node_modules
 dist
-dist-ssr
+express/server
+express/client
+
 *.local
 
 # Editor directories and files
