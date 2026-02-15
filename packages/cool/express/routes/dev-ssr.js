@@ -2,8 +2,6 @@ import express from 'express';
 import { createServer } from 'vite';
 import { join } from 'node:path';
 import fse from 'fs-extra';
-import { RouteServerMap } from '../route-apis/index.js';
-import { buildMultiPath } from '../utils/path.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
 import { getDefaultValue } from '../utils/constants.js';

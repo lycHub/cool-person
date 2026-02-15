@@ -7,7 +7,7 @@ const app = express();
 const isDev = process.env.NODE_ENV === 'development';
 app.use(express.json());
 const __dirname = getDirname(import.meta.url);
-app.use(express.static(join(__dirname, '../dist/client'), { index: false }));
+app.use(express.static(join(__dirname, './client'), { index: false }));
 
 const PORT = isDev ? 3333 : 3334;
 

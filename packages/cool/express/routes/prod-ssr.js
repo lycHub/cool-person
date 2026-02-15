@@ -13,10 +13,10 @@ const __dirname = getDirname(import.meta.url);
 
 async function run() {
   const manifest = JSON.parse(
-    fse.readFileSync(join(__dirname, '../../dist/client/.vite/ssr-manifest.json'), 'utf-8'),
+    fse.readFileSync(join(__dirname, '../client/.vite/ssr-manifest.json'), 'utf-8'),
   );
 
-  const { render } = await import('../../dist/server/entry-server.js');
+  const { render } = await import('../server/entry-server.js');
 
   router.get('*all', async (req, res, next) => {
     const originalUrl = req.originalUrl;
@@ -25,7 +25,7 @@ async function run() {
       return next();
     }
 
-    let originHtml = fse.readFileSync(join(__dirname, '../../dist/client/index.html'), 'utf-8');
+    let originHtml = fse.readFileSync(join(__dirname, '../client/index.html'), 'utf-8');
 
     const ctx = {
       originalUrl,

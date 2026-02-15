@@ -8,7 +8,7 @@ import UnheadVite from '@unhead/addons/vite';
 export default defineConfig(({ command, mode, isSsrBuild }) => {
   const isLocal = command === 'serve';
   const env = loadEnv(mode, join(__dirname, 'envs'), 'VITE_');
-  const outputDir = isSsrBuild ? './dist/server' : './dist/client';
+  const outputDir = isSsrBuild ? './express/server' : './express/client';
   return {
     plugins: [vue(), UnheadVite(), vueDevTools()],
     envDir: 'envs',
