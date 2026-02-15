@@ -5,7 +5,7 @@
     <intro :scroller="homeRef" />
     <hobby :scroller="homeRef" />
     <projects :scroller="homeRef" />
-    <gallery :scroller="homeRef" :direction="direction" />
+    <gallery :scroller="homeRef" />
     <friends />
     <contact />
     <Footer />

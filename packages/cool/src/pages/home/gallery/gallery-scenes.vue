@@ -10,6 +10,7 @@
         :height="imgSize.height"
         :alt="item.key"
         :data-angle="item.rotate"
+        :style="`transform: rotateZ(${item.rotate}deg)`"
       />
     </div>
   </div>
@@ -37,11 +38,9 @@ const { scenes, imgSize } = defineProps<{
     column-gap: 14vw;
     padding-inline: 10vw;
 
-    // background-color: #0ff;
 
     .scene-item {
       flex-shrink: 0;
-      opacity: 0;
     }
   }
 }
