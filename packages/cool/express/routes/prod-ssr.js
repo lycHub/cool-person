@@ -1,24 +1,23 @@
 import express from 'express';
-
-import { render } from '../../dist/server/entry-server.js';
-import { join, dirname, basename } from 'node:path';
+import { join } from 'node:path';
 import fse from 'fs-extra';
-import { fileURLToPath } from 'node:url';
 import { renderPreloadLinks } from '../utils/preload.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
 import { getDefaultValue } from '../utils/constants.js';
+import { getDirname } from '../utils/dirname.js';
 
 const router = express.Router({ caseSensitive: true });
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
-const manifest = JSON.parse(
-  fse.readFileSync(join(__dirname, '../../dist/client/.vite/ssr-manifest.json'), 'utf-8'),
-);
+const __dirname = getDirname(import.meta.url);
 
 async function run() {
+  const manifest = JSON.parse(
+    fse.readFileSync(join(__dirname, '../../dist/client/.vite/ssr-manifest.json'), 'utf-8'),
+  );
+
+  const { render } = await import('../../dist/server/entry-server.js');
+
   router.get('*all', async (req, res, next) => {
     const originalUrl = req.originalUrl;
 
@@ -64,7 +63,7 @@ async function run() {
         res.setHeader('content-type', 'text/html');
         res.send('<h1>出错了</h1>');
         stream.abort();
-        next(error);
+        next(err);
       });
 
       stream.on('end', () => {
@@ -78,6 +77,4 @@ async function run() {
   });
 }
 
-run();
-
-export { router };
+export { router, run };
