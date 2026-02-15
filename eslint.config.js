@@ -117,6 +117,7 @@ export default tseslint.config(
       'packages/**/*.mock.ts',
       '**/bacs/**',
       '**/express/**',
+      '*.config.cjs',
     ]
   }
 );
