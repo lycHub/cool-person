@@ -14,8 +14,9 @@
     "build:ssr": "pnpm -F=@personal/cool build:ssr",
     "dev:ssr": "pnpm -F=@personal/cool dev:ssr",
     "server:ssr": "pnpm -F=@personal/cool server:ssr",
-    "start:pm2": "pm2 start ecosystem.config.cjs",
-    "stop:pm2": "pm2 stop all"
+    "start:cool": "pm2 start ecosystem.config.cjs",
+    "stop:cool": "pm2 stop cool-person",
+    "restart:cool": "pm2 restart cool-person"
   },
   "config": {
     "commitizen": {
