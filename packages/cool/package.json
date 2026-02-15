@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "build:entry:client": "vue-tsc -b && vite build --outDir dist/client --ssrManifest",
-    "build:entry:server": "vite build --outDir dist/server --ssr src/entry-server.ts",
+    "build:entry:client": "vue-tsc -b && vite build --ssrManifest",
+    "build:entry:server": "vite build --ssr src/entry-server.ts",
     "build:ssr": "pnpm build:entry:client && pnpm build:entry:server",
     "dev:ssr": "nodemon express/index.js",
     "server:ssr": "set NODE_ENV=production && node express/index.js"

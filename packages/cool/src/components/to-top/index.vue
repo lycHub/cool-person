@@ -53,7 +53,7 @@ const toTop = () => {
   opacity: 0;
   visibility: hidden;
   position: absolute;
-  inset-block-end: var(--spacing-12);
+  inset-block-end: var(--spacing-48);
   inset-inline-end: var(--spacing-16);
   font-size: var(--text-size-48);
   cursor: pointer;
@@ -68,7 +68,6 @@ const toTop = () => {
 
 @media screen and (width >=768px) {
   .to-top-icon {
-    inset-block-end: var(--spacing-30);
     inset-inline-end: var(--spacing-40);
   }
 }

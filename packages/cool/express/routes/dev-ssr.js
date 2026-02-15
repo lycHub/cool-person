@@ -1,13 +1,13 @@
 import express from 'express';
 import { createServer } from 'vite';
-import { join, dirname } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { join } from 'node:path';
 import fse from 'fs-extra';
 import { RouteServerMap } from '../route-apis/index.js';
 import { buildMultiPath } from '../utils/path.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
 import { getDefaultValue } from '../utils/constants.js';
+import { getDirname } from '../utils/dirname.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -27,8 +27,7 @@ async function run() {
 
   router.use(vite.middlewares);
 
-  const __filename = fileURLToPath(import.meta.url);
-  const __dirname = dirname(__filename);
+  const __dirname = getDirname(import.meta.url);
 
   router.get('*all', async (req, res, next) => {
     const originalUrl = req.originalUrl;
@@ -67,7 +66,7 @@ async function run() {
         res.setHeader('content-type', 'text/html');
         res.send('<h1>出错了</h1>');
         stream.abort();
-        next(error);
+        next(err);
       });
 
       stream.on('end', () => {
@@ -82,6 +81,4 @@ async function run() {
   });
 }
 
-run();
-
-export { router };
+export { router, run };
