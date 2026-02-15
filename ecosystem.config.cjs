@@ -8,5 +8,13 @@ module.exports = {
         NODE_ENV: 'production',
       },
     },
+    {
+      name: 'cool-person_spa',
+      cwd: './packages/cool',
+      script: 'spa.js',
+      env: {
+        NODE_ENV: 'production',
+      },
+    },
   ],
 };

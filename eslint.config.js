@@ -118,6 +118,7 @@ export default tseslint.config(
       '**/bacs/**',
       '**/express/**',
       '*.config.cjs',
+      'packages/cool/spa.js'
     ]
   }
 );

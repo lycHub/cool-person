@@ -11,12 +11,14 @@
     "stylelint:fix": "stylelint packages/*/src/**/*.{scss,css,vue} --fix --max-warnings 0",
     "prepare": "husky",
     "commit": "cz && git push",
+    "spa": "pnpm -F=@personal/cool spa",
     "build:ssr": "pnpm -F=@personal/cool build:ssr",
     "dev:ssr": "pnpm -F=@personal/cool dev:ssr",
     "server:ssr": "pnpm -F=@personal/cool server:ssr",
     "start:cool": "pm2 start ecosystem.config.cjs",
-    "stop:cool": "pm2 stop cool-person",
-    "restart:cool": "pm2 restart cool-person"
+    "stop:cool": "pm2 stop all",
+    "restart:cool": "pm2 restart all",
+    "delete:cool": "pm2 delete all"
   },
   "config": {
     "commitizen": {

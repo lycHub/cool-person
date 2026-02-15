@@ -4,6 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "preview": "vite preview --outDir dist",
+    "spa": "node spa.js",
     "build:entry:client": "vue-tsc -b && vite build --ssrManifest",
     "build:entry:server": "vite build --ssr src/entry-server.ts",
     "build:ssr": "pnpm build:entry:client && pnpm build:entry:server",
@@ -31,6 +33,7 @@
     "@unhead/addons": "^2.1.4",
     "@vitejs/plugin-vue": "^6.0.1",
     "@vue/tsconfig": "^0.8.1",
+    "connect-history-api-fallback": "^2.0.0",
     "express": "^5.2.1",
     "fs-extra": "^11.3.3",
     "nodemon": "^3.1.11",
