@@ -142,11 +142,11 @@ const handleResize = useThrottleFn(
     /**
      * 计算六边形的基础大小
      * 根据窗口的最小维度（宽度或高度）动态调整
-     * 确保六边形大小至少为40px，以保证视觉效果和交互可用性
+     * 确保六边形大小至少为70px，以保证视觉效果和交互可用性
      * @returns 六边形的基础大小（px）
      */
     const minDimension = Math.min(width, height);
-    const hexSize = Math.max(40, minDimension / 10);
+    const hexSize = Math.max(70, minDimension / 10);
 
     /**
      * 计算六边形的宽度
@@ -329,6 +329,7 @@ onUnmounted(() => {
   inset: 0;
   z-index: 6;
   background: #1a1a2e;
+
   .loading-mask text {
     font-size: min(4vw, 36px);
   }

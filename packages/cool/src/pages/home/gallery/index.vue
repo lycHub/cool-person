@@ -17,12 +17,10 @@ import { useDebounceFn } from '@vueuse/core';
 import { publicAssetsPrefix } from '../../../utils';
 import { useApiDataStore } from '../../../store';
 
-type GalleryImageElementType = HTMLImageElement & { showStatus: string };
 
 gsap.registerPlugin(ScrollTrigger);
-const { scroller, direction } = defineProps<{
+const { scroller } = defineProps<{
   scroller: TypeWithNull<HTMLDivElement>;
-  direction: number;
 }>();
 
 const AspectRatio = 1.36;
@@ -61,113 +59,13 @@ const clear = () => {
   observer = null;
 };
 
-let imgAnimating = false;
-
-const imgAniConfig = {
-  duration: 0.5,
-  ease: 'power3.inOut',
-};
-const threshold = [0, 0.25, 0.5, 0.75, 1];
-
 onMounted(() => { });
 
 onUnmounted(() => {
   clear();
 });
 
-function refreshObserver() {
-  const wrapper = secRef.value?.querySelector('.gallery-scenes');
-  const sceneImgs = secRef.value?.querySelectorAll<GalleryImageElementType>('.scene-item');
-  if (!sceneImgs?.length) return;
-  const hideThreshold = Math.floor(wrapper!.clientWidth / 2);
 
-  observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        const intersectionRatio = gsap.utils.snap(threshold, entry.intersectionRatio);
-        const target = entry.target as GalleryImageElementType;
-
-        // console.log({
-        //   key: target.alt,
-        //   dir: direction,
-        //   intersectionRatio,
-        //   isIntersecting: entry.isIntersecting,
-        //   intersectionRect: entry.intersectionRect,
-        // });
-        if (imgAnimating) return;
-        const hideX = -Math.round(imgSize.width / 2);
-        const hideY = Math.round(imgSize.height / 2);
-        const isMoveToLeft = direction === 1;
-        const currentStatus = target.showStatus;
-        if (isMoveToLeft) {
-          if (intersectionRatio >= 0.5 && !currentStatus) {
-            imgAnimating = true;
-            target.showStatus = 'inView';
-            const angle = +target.dataset.angle!;
-            // console.log({
-            //   hideX,
-            //   hideY,
-            // });
-            gsap.fromTo(
-              target,
-              {
-                ...imgAniConfig,
-                x: hideX,
-                y: hideY,
-                autoAlpha: 0,
-              },
-              {
-                ...imgAniConfig,
-                x: 0,
-                y: 0,
-                autoAlpha: 1,
-                rotateZ: angle,
-                onComplete: () => {
-                  imgAnimating = false;
-                },
-              },
-            );
-          }
-        } else {
-          if (
-            intersectionRatio <= 0.5 &&
-            currentStatus === 'inView' &&
-            entry.intersectionRect.left >= hideThreshold
-          ) {
-            imgAnimating = true;
-            target.showStatus = '';
-            gsap.to(target, {
-              ...imgAniConfig,
-              x: hideX,
-              y: hideY,
-              rotateZ: 0,
-              autoAlpha: 0,
-              onComplete: () => {
-                imgAnimating = false;
-              },
-            });
-          }
-        }
-        // 每个条目描述一个目标元素观测点的交叉变化：
-        //   entry.boundingClientRect
-        //   entry.intersectionRatio
-        //   entry.intersectionRect
-        //   entry.isIntersecting
-        //   entry.rootBounds
-        //   entry.target
-        //   entry.time
-      });
-    },
-    {
-      root: wrapper,
-      // rootMargin: '0px',
-      threshold,
-    },
-  );
-  sceneImgs.forEach((item) => {
-    observer!.observe(item);
-  });
-}
 
 const refreshAni = (winWidth: number) => {
   ctx = gsap.context(() => {
@@ -179,6 +77,7 @@ const refreshAni = (winWidth: number) => {
     const ySetter = gsap.quickSetter(textNodes, 'y', 'px');
 
     const moveDistance = Math.round(container.offsetWidth - winWidth);
+
     const containerTween = gsap.to(container, {
       id: 'galleryContainerTween',
       x: -moveDistance,
@@ -194,30 +93,6 @@ const refreshAni = (winWidth: number) => {
         onUpdate(self) {
           const moveDistance = (self.end - self.start) * self.progress * TextResistance;
           ySetter(moveDistance);
-        },
-        onLeave() {
-          const imgItems = gsap.utils
-            .toArray<GalleryImageElementType>(container.querySelectorAll('.scene-item'))
-            .filter((item) => !item.showStatus);
-          if (imgItems.length) {
-            imgAnimating = true;
-            imgItems.forEach((item) => {
-              item.showStatus = 'inView';
-            });
-            gsap.to(imgItems, {
-              ...imgAniConfig,
-              x: 0,
-              y: 0,
-              autoAlpha: 1,
-              rotateZ(_, target) {
-                const angle = +target.dataset.angle!;
-                return angle;
-              },
-              onComplete: () => {
-                imgAnimating = false;
-              },
-            });
-          }
         },
       },
     });
@@ -253,7 +128,6 @@ const refreshImgs = ({ width }: { width: number; height: number }) => {
   const imgWidth = Math.min(Math.round(width / 1.4), MaxImgWidth);
   imgSize.width = imgWidth;
   imgSize.height = Math.round(imgWidth / AspectRatio);
-  refreshObserver();
   refreshAni(width);
 };
 

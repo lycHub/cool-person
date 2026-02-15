@@ -10,7 +10,7 @@
 
     <path ref="springRef" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" />
 
-    <g ref="mobileRef" fill="none" style="cursor: grab" @pointerdown="onPointerDown">
+    <g ref="mobileRef" fill="none" style="cursor: grab;" @pointerdown="onPointerDown">
       <path
         fill="url(#SVGIDUMNdqL)"
         d="M-20 0 A6 6 0 0 0 -26 6 v70 A6 6 0 0 0 -20 82 h40 a6 6 0 0 0 6-6 v-70 A6 6 0 0 0 20 0z"
@@ -326,8 +326,20 @@ const { stop } = isClient
   ? useIntersectionObserver(
       svgRef,
       ([entry]) => {
-        const intersectionRatio = entry?.intersectionRatio || 0;
-        if (intersectionRatio === 1) {
+        // 在部分移动端浏览器（尤其是 iOS Safari）上，SVG 的 intersectionRatio 可能被错误计算为相对 viewport 的比值，
+        // 导致只能得到很小的数值。这里改为基于矩形面积手动计算可视比例，作为更稳定的依据。
+        let ratio = entry?.intersectionRatio || 0;
+        if (entry) {
+          const br = entry.boundingClientRect;
+          const ir = entry.intersectionRect;
+          const brArea = Math.max(0, br.width) * Math.max(0, br.height);
+          const irArea = Math.max(0, ir.width) * Math.max(0, ir.height);
+          if (brArea > 0) {
+            ratio = Math.min(1, irArea / brArea);
+          }
+        }
+        // console.log({ratio});
+        if (ratio >= 0.8) {
           if (!visible) {
             svgRef.value!.style.visibility = 'visible';
             visible = true;
@@ -336,7 +348,8 @@ const { stop } = isClient
         }
       },
       {
-        threshold: [0, 1],
+        // 使用更细粒度的阈值，确保在比值变化时能收到回调（移动端上不会等到 1 再触发）
+        threshold: Array.from({ length: 101 }, (_, i) => i / 100),
       },
     )
   : {
