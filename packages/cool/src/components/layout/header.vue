@@ -70,8 +70,8 @@ const toggleTheme = (event: PointEventType) => {
 
   if (document.startViewTransition) {
     const { clientX: x, clientY: y } = coor;
-    html.style.setProperty('--theme-tirgger-position', `${x}px ${y}px`);
-    html.style.setProperty('--theme-tirgger-duration', `${ThemeToggleDuration}ms`);
+    html.style.setProperty('--theme-trigger-position', `${x}px ${y}px`);
+    html.style.setProperty('--theme-trigger-duration', `${ThemeToggleDuration}ms`);
     //  const endRadius = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
     //  console.log('endRadius', endRadius)
     const transition = document.startViewTransition(() => {
@@ -89,16 +89,17 @@ const toggleTheme = (event: PointEventType) => {
 
 <style scoped lang="scss">
 .common-header {
-  --theme-tirgger-position: 50% 50%;
+  --theme-trigger-position: 50% 50%;
 
   position: absolute;
   top: 0;
   width: 100%;
+  height: var(--header-height);
   z-index: 6;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--spacing-12) var(--spacing-16);
+  padding-inline: var(--spacing-16);
 
   &-right {
     display: flex;
@@ -109,7 +110,7 @@ const toggleTheme = (event: PointEventType) => {
 
 @media screen and (width >=768px) {
   .common-header {
-    padding: var(--spacing-30) var(--spacing-40);
+    padding-inline: var(--spacing-40);
   }
 }
 </style>

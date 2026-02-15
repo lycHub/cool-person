@@ -3,21 +3,14 @@
     <rotate-bg-shape />
     <layout-header :menuStatus="menuStatus" @onClickMenu="toggleMenu" />
     <slot />
-    <DrawerRoot handle-only direction="right" :open="drawerOpen" z-index="3">
-      <DrawerOverlay class="drawer-overlay" @click="onDrawerChange(false)" />
-      <DrawerContent class="drawer-content">
+    <drawer-root direction="right" :open="drawerOpen" z-index="3" @close="onDrawerChange(false)">
+      <drawer-overlay class="drawer-overlay" @click="onDrawerChange(false)" />
+      <drawer-content class="drawer-content">
         <Menu @onClickLink="onDrawerChange(false)" />
-      </DrawerContent>
-    </DrawerRoot>
-
-    <loading
-      v-if="loadingVisible"
-      class="full-loading"
-      :direction="loadingStore.state.direction"
-      :progress="progress"
-      :trigger="loadingStore.state.trigger"
-      @onHide="onHideLoading"
-    />
+      </drawer-content>
+    </drawer-root>
+    <loading v-if="loadingVisible" class="full-loading" :direction="loadingStore.state.direction" :progress="progress"
+      :trigger="loadingStore.state.trigger" @onHide="onHideLoading" />
   </div>
 </template>
 
@@ -35,6 +28,7 @@ import type { DrawerRootProps } from 'vaul-vue';
 import { useHead, useSeoMeta } from '@unhead/vue';
 import { getSeoMeta } from '../../utils';
 
+// todo: 替换掉vaul-vue以支持ssr
 let DrawerRoot: Component<DrawerRootProps> = { render: emptyFunc };
 let DrawerOverlay: Component<PublicProps> = { render: () => emptyFunc };
 let DrawerContent: Component<PublicProps> = { render: () => emptyFunc };
@@ -58,7 +52,7 @@ const drawerOpen = shallowRef(false);
 const menuStatus = shallowRef<MenuStatus>('inactive');
 
 const onDrawerChange = (event: boolean) => {
-  console.log('onDrawerChange', event);
+  // console.log('onDrawerChange', event);
   drawerOpen.value = event;
   menuStatus.value = event ? 'active' : 'inactive';
 };
@@ -82,16 +76,13 @@ const { pause, reset, resume } = useInterval(loadingStore.state.speed, {
   },
 });
 
-watch(
-  () => loadingStore.state.status,
-  (newVal) => {
-    console.log('watch loadingStore.state.status', newVal);
-    if (newVal === 'loading') {
-      resume();
-      loadingVisible.value = true;
-    }
-  },
-);
+watch(() => loadingStore.state.status, (newVal) => {
+  // console.log('watch loadingStore.state.status', newVal)
+  if (newVal === 'loading') {
+    resume()
+    loadingVisible.value = true;
+  }
+})
 
 const showLoading = () => {
   loadingStore.changeState({
@@ -115,6 +106,8 @@ onMounted(() => {
 
 <style lang="scss">
 .layout {
+  --header-height: 84px;
+
   position: relative;
   display: flex;
   flex-direction: column;
@@ -137,4 +130,5 @@ onMounted(() => {
   width: min(100%, 800px);
   z-index: 4;
 }
+
 </style>

@@ -10,7 +10,7 @@ export function getInitHead() {
       meta: [
         {
           name: 'keywords',
-          content: '前端, 动画, 个人网站, 技术能力, 项目经历, 个人介绍',
+          content: '前端, 动画, 个人网站, 技术能力, 项目经历',
         },
         {
           name: 'description',
