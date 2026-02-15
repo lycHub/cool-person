@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc -b && vite build --mode prod",
+    "build": "vue-tsc -b && vite build --outDir dist/spa",
     "preview": "vite preview"
   },
   "dependencies": {
