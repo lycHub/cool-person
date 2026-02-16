@@ -19,7 +19,9 @@ async function run() {
   const { render } = await import('../server/entry-server.js');
 
   router.get('*all', async (req, res, next) => {
-    const originalUrl = req.originalUrl;
+    // Remove /ssr prefix from the URL for SSR processing
+    const originalUrl = req.originalUrl.replace(/^\/ssr/, '') || '/';
+    const url = req.url.replace(/^\/ssr/, '') || '/';
 
     if (shouldSkipSSR(originalUrl)) {
       return next();
@@ -29,7 +31,7 @@ async function run() {
 
     const ctx = {
       originalUrl,
-      url: req.url,
+      url,
       apiData: getDefaultValue(),
       manifest,
     };
