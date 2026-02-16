@@ -5,8 +5,14 @@
 </template>
 
 <script setup lang="ts">
+import { useHead } from '@unhead/vue';
+
 
 // const pageRef = useTemplateRef<HTMLDivElement>('pageRef');
+
+useHead({
+  title: '图片库',
+});
 
 </script>
 

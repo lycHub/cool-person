@@ -17,10 +17,14 @@ import { useApiDataStore } from '../../store';
 import ProjectRow from '../../components/project-row/index.vue';
 import Footer from '../../components/layout/footer.vue';
 import { useHoverProjects } from '../../hooks';
+import { useHead } from '@unhead/vue';
 
 const pageRef = useTemplateRef<HTMLDivElement>('pageRef');
 const { state } = useApiDataStore();
 
+useHead({
+  title: '我的项目',
+});
 
 const { imgSize,onMouseEnter, onMouseMove, onMouseLeave } = useHoverProjects({ container: pageRef });
 
