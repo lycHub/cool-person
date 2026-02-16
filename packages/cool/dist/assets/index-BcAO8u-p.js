@@ -1,1 +1,0 @@
-import{d as e,c as o,o as t,_ as a}from"./index-DIa0iRH0.js";const s={class:"page-root gallery",ref:"pageRef"},_=e({__name:"index",setup(c){return(n,r)=>(t(),o("div",s," todo ",512))}}),p=a(_,[["__scopeId","data-v-55a7d39b"]]);export{p as default};
