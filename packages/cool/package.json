@@ -12,6 +12,7 @@
     "dev:ssr": "nodemon express/index.js",
     "server:ssr": "set NODE_ENV=production && node express/index.js"
   },
+  "license": "MIT",
   "dependencies": {
     "@iconify/vue": "^5.0.0",
     "@personal/icons": "workspace:^0.0.1",
