@@ -13,6 +13,7 @@
     "shared"
   ],
   "author": "ysx",
+  "license": "MIT",
   "peerDependencies": {
     "decimal.js": "^10.6.0"
   }
