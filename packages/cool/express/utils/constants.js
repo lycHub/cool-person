@@ -1,6 +1,8 @@
 import { randomInt } from 'es-toolkit/math';
 import { simpleFaker } from '@faker-js/faker';
 
+export const BasePathName = 'ssr';
+
 const Stacks = [
   'TypeScript',
   'React',
@@ -79,7 +81,7 @@ export const ContactWays = [
   {
     key: 'github',
     name: 'github',
-    link: 'https://github.com/lycHub',
+    link: 'https://github.com/lycHub/cool-person?tab=readme-ov-file',
     icon: 'github',
   },
   {
@@ -208,7 +210,7 @@ export const Friends = [
 export function getDefaultValue() {
   return {
     stacks: getStackOptions(),
-    hobbys: HobbyOptions,
+    hobbies: HobbyOptions,
     contactWays: ContactWays,
     projects: Projects,
     sceneries: Sceneries,

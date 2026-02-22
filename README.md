@@ -1,6 +1,6 @@
 ## 动效流个人网站模板
 
-模板代码完全开源，可用作部署成自己的在线网站(简历)
+pnpm + vue3 + gsap + express，可用作部署成自己的在线网站(简历)
 
 ### 预览
 
@@ -25,7 +25,7 @@ pnpm preview
 请切换ssr分支，[并查看说明](https://github.com/lycHub/cool-person/blob/ssr/docs/ssr.md)
 
 
-### 设计参考
+### 设计、动画参考
 
 - [omid](https://omid.bio/lander?oref=https%3A%2F%2Fwww.awwwards.com%2F)
 - [shepel](https://www.shepel.eu/)
@@ -37,6 +37,6 @@ MIT License
 
 ### 在线要饭
 
-如果本项目对你有所帮助，行行好赏点拼个好饭吧  ![bowl.svg](./docs/bowl.svg) ![cry.svg](./docs/cry.svg)
+如果本项目对你有所帮助，赏点拼个好饭吧  ![bowl.svg](./docs/bowl.svg) ![cry.svg](./docs/cry.svg)
 
 ![img](./docs/alipay.jpg)
