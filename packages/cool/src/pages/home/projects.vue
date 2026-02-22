@@ -8,7 +8,7 @@
       </div>
     </div>
     <all-project-trigger class="to-all-project">
-      <a class="ripple-content">所有作品</a>
+      <custom-link class="ripple-content" to="../projects">所有作品</custom-link>
     </all-project-trigger>
   </section>
 </template>
@@ -21,6 +21,7 @@ import ProjectRow from '../../components/project-row/index.vue';
 import AllProjectTrigger from '../../components/all-project-trigger/index.vue';
 import { useApiDataStore } from '../../store';
 import { useHoverProjects } from '../../hooks';
+import CustomLink from '../../components/custom-link/index.vue';
 
 const secRef = useTemplateRef('secProjectef');
 
@@ -56,7 +57,7 @@ const initPinAni = (scrollerVal: TypeWithNull<HTMLDivElement>) => {
     scroller: scrollerVal,
     trigger: secRef.value,
     endTrigger: endTrigger,
-    start: 'bottom bottom',
+    start: 'bottom+=80px bottom',
     end: 'bottom bottom',
     pin: true,
     pinSpacing: false,

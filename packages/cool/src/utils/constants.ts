@@ -121,7 +121,7 @@ export const ContactWays: ContactWay[] = [
   {
     key: 'github',
     name: 'github',
-    link: 'https://github.com/lycHub',
+    link: 'https://github.com/lycHub/cool-person?tab=readme-ov-file',
     icon: 'github',
   },
   {

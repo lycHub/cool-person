@@ -8,7 +8,7 @@ import type { ContactWay, ProjectInfo } from '../typings/data';
 // 给ssr做准备
 export interface ApiData {
   stacks: ReturnType<typeof getStackOptions>;
-  hobbys: typeof HobbyOptions;
+  hobbies: typeof HobbyOptions;
   contactWays: ContactWay[];
   projects: ProjectInfo[];
   sceneries: string[];
@@ -20,7 +20,7 @@ const ApiDataStoreKey = 'ApiDataStore';
 
 const getDefaultValue: () => ApiData = () => ({
   stacks: getStackOptions(),
-  hobbys: HobbyOptions,
+  hobbies: HobbyOptions,
   contactWays: ContactWays,
   projects: Projects,
   sceneries: Sceneries,
