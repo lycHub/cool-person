@@ -6,7 +6,7 @@ import type { ContactWay, ProjectInfo, Stack, Hobby } from '../typings/data';
 // 给ssr做准备
 export interface ApiData {
   stacks: Stack[];
-  hobbys: Hobby[];
+  hobbies: Hobby[];
   contactWays: ContactWay[];
   projects: ProjectInfo[];
   sceneries: string[];

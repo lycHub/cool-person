@@ -3,7 +3,7 @@
     <!-- 边界 -->
     <div class="content-wrap w-full h-full" v-element-size="onResize">
       <div class="title">My Daily Hobby</div>
-      <img class="hobby-item" v-for="item of (state.hobbys || [])" :data-name="item.name" :data-angle="item.angle"
+      <img class="hobby-item" v-for="item of (state.hobbies || [])" :data-name="item.name" :data-angle="item.angle"
         :src="`${publicAssetsPrefix()}/hobbies/${item.name}.svg`" />
     </div>
   </section>

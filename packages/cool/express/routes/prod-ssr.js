@@ -6,6 +6,7 @@ import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
 import { getDefaultValue } from '../utils/constants.js';
 import { getDirname } from '../utils/dirname.js';
+import { BasePathName } from '../utils/constants.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -20,8 +21,8 @@ async function run() {
 
   router.get('*all', async (req, res, next) => {
     // Remove /ssr prefix from the URL for SSR processing
-    const originalUrl = req.originalUrl.replace(/^\/ssr/, '') || '/';
-    const url = req.url.replace(/^\/ssr/, '') || '/';
+    const originalUrl = req.originalUrl.replace(new RegExp('^/' + BasePathName), '') || '/';
+    const url = req.url.replace(new RegExp('^/' + BasePathName), '') || '/';
 
     if (shouldSkipSSR(originalUrl)) {
       return next();

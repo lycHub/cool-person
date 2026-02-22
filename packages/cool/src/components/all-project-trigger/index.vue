@@ -13,7 +13,7 @@
 import RippleBox from '../ripple-box/index.vue';
 import { useHoverMove } from '../../hooks';
 
-const { onRippleEnter, onRippleLeave } = useHoverMove({ moveRange: [-20, 20] });
+const { onRippleEnter, onRippleLeave } = useHoverMove({ moveRange: [-10, 10] });
 </script>
 
 <style lang="scss" scoped>
