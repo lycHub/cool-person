@@ -1,8 +1,11 @@
 <template>
   <section class="sec sec-projects" ref="secProjectef">
     <div class="project-list" @mousemove="onMouseMove" @mouseleave="onMouseLeave">
-      <project-row v-for="(item, index) of (state.projects || []).slice(0, 5)" v-bind="{ ...item, index }"
-        @mouseenter="onMouseEnter($event, item)" />
+      <project-row
+        v-for="(item, index) of (state.projects || []).slice(0, 5)"
+        v-bind="{ ...item, index }"
+        @mouseenter="onMouseEnter($event, item)"
+      />
       <div class="project-pop">
         <img src="" alt="" />
       </div>
@@ -16,7 +19,7 @@
 <script setup lang="ts">
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { onUnmounted, useTemplateRef, watch } from 'vue';
-import {  type TypeWithNull } from '@personal/shared';
+import { type TypeWithNull } from '@personal/shared';
 import ProjectRow from '../../components/project-row/index.vue';
 import AllProjectTrigger from '../../components/all-project-trigger/index.vue';
 import { useApiDataStore } from '../../store';
@@ -28,7 +31,6 @@ const secRef = useTemplateRef('secProjectef');
 const { scroller } = defineProps<{
   scroller: TypeWithNull<HTMLDivElement>;
 }>();
-
 
 const { state } = useApiDataStore();
 
@@ -57,16 +59,18 @@ const initPinAni = (scrollerVal: TypeWithNull<HTMLDivElement>) => {
     scroller: scrollerVal,
     trigger: secRef.value,
     endTrigger: endTrigger,
-    start: 'bottom+=80px bottom',
-    end: 'bottom bottom',
+    start: 'bottom bottom',
+    end: 'top top',
     pin: true,
     pinSpacing: false,
+    // markers: true,
   });
 };
 watch(() => scroller, initPinAni);
 
-const { imgSize, onMouseEnter, onMouseMove, onMouseLeave } = useHoverProjects({ container: secRef });
-
+const { imgSize, onMouseEnter, onMouseMove, onMouseLeave } = useHoverProjects({
+  container: secRef,
+});
 </script>
 
 <style scoped lang="scss">
