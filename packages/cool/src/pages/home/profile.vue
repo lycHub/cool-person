@@ -149,7 +149,6 @@ watch([elementX, elementY], ([newElementX, newElementY]) => {
 
     .profile-pic {
       position: absolute;
-      filter: brightness(0.4);
     }
 
     .profile-text {
@@ -188,6 +187,10 @@ watch([elementX, elementY], ([newElementX, newElementY]) => {
       bottom: 10%;
     }
   }
+}
+
+:root.dark .sec-profile .profile .profile-pic {
+  filter: brightness(0.6);
 }
 
 @media screen and (width >= 640px) {

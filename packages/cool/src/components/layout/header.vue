@@ -58,10 +58,9 @@ onMounted(async () => {
 const toggleTheme = (event: PointEventType) => {
   const coor = getClientCoordinateFromEvent(event);
   if (!coor) return;
-  // const isDark = currentTheme.value === ThemeValue.dark;
-  const isDark = document.documentElement.classList.contains(ThemeValue.dark);
-  const newVal = isDark ? ThemeValue.light : ThemeValue.dark;
   const html = document.documentElement;
+  const isDark = html.classList.contains(ThemeValue.dark);
+  const newVal = isDark ? ThemeValue.light : ThemeValue.dark;
 
   const updateData = () => {
     html.classList.remove(newVal === 'dark' ? ThemeValue.light : ThemeValue.dark);
