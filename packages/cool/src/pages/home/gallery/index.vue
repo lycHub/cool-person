@@ -17,7 +17,6 @@ import { useDebounceFn } from '@vueuse/core';
 import { publicAssetsPrefix } from '../../../utils';
 import { useApiDataStore } from '../../../store';
 
-
 gsap.registerPlugin(ScrollTrigger);
 const { scroller } = defineProps<{
   scroller: TypeWithNull<HTMLDivElement>;
@@ -59,13 +58,11 @@ const clear = () => {
   observer = null;
 };
 
-onMounted(() => { });
+onMounted(() => {});
 
 onUnmounted(() => {
   clear();
 });
-
-
 
 const refreshAni = (winWidth: number) => {
   ctx = gsap.context(() => {
@@ -74,6 +71,7 @@ const refreshAni = (winWidth: number) => {
     const textNodes = gsap.utils.toArray<HTMLDivElement>(
       secRef.value!.querySelectorAll('.gallery-desc .gd-text'),
     );
+
     const ySetter = gsap.quickSetter(textNodes, 'y', 'px');
 
     const moveDistance = Math.round(container.offsetWidth - winWidth);

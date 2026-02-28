@@ -10,7 +10,13 @@
 
     <path ref="springRef" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" />
 
-    <g ref="mobileRef" fill="none" style="cursor: grab;" @pointerdown="onPointerDown">
+    <g
+      ref="mobileRef"
+      fill="none"
+      style="cursor: grab;"
+      @pointerdown="onPointerDown"
+      @touchstart="disableNativeAction"
+    >
       <path
         fill="url(#SVGIDUMNdqL)"
         d="M-20 0 A6 6 0 0 0 -26 6 v70 A6 6 0 0 0 -20 82 h40 a6 6 0 0 0 6-6 v-70 A6 6 0 0 0 20 0z"
@@ -241,9 +247,13 @@ let containerSize = {
 
 let pointerId: TypeWithNull<number> = null;
 
-const onPointerDown = (event: PointEventType) => {
+const disableNativeAction = (event: PointEventType) => {
   event.preventDefault();
   event.stopPropagation();
+};
+
+const onPointerDown = (event: PointEventType) => {
+  disableNativeAction(event);
   const clientCoordinate = getClientCoordinateFromEvent(event);
   if (state.isDragging || !clientCoordinate) return;
   cleanAnimate();
@@ -274,8 +284,7 @@ const onPointerDown = (event: PointEventType) => {
 };
 
 function moveHandler(event: PointerEvent) {
-  event.preventDefault();
-  event.stopPropagation();
+  disableNativeAction(event);
   const clientCoordinate = getClientCoordinateFromEvent(event);
   if (!state.isDragging || !clientCoordinate) return;
   // console.log('moveHandler');
@@ -327,7 +336,7 @@ const { stop } = isClient
       svgRef,
       ([entry]) => {
         // 在部分移动端浏览器（尤其是 iOS Safari）上，SVG 的 intersectionRatio 可能被错误计算为相对 viewport 的比值，
-        // 导致只能得到很小的数值。这里改为基于矩形面积手动计算可视比例，作为更稳定的依据。
+        // 导致只能得到很小的数值。基于矩形面积手动计算可视比例更准确。
         let ratio = entry?.intersectionRatio || 0;
         if (entry) {
           const br = entry.boundingClientRect;
@@ -339,7 +348,7 @@ const { stop } = isClient
           }
         }
         // console.log({ratio});
-        if (ratio >= 0.8) {
+        if (ratio >= 0.6) {
           if (!visible) {
             svgRef.value!.style.visibility = 'visible';
             visible = true;
@@ -379,5 +388,6 @@ onUnmounted(() => {
 .spring-mobile {
   visibility: hidden;
   overflow: visible;
+  user-select: none;
 }
 </style>

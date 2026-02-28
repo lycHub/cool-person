@@ -142,12 +142,6 @@ export const ContactWays: ContactWay[] = [
     link: 'tel:15079010174',
     icon: 'phone',
   },
-  {
-    key: 'blog',
-    name: '博客',
-    link: 'https://segmentfault.com/blog/madao',
-    icon: 'blog',
-  },
 ];
 
 export const Projects: ProjectInfo[] = [
