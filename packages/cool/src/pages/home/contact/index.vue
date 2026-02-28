@@ -4,8 +4,15 @@
       <h3>contact me</h3>
     </div>
     <div class="sc-methods">
-      <a class="scm" :ref="(el) => addTextRef(el as HTMLAnchorElement)">1120805364@qq.com</a>
-      <a class="scm" :ref="(el) => addTextRef(el as HTMLAnchorElement)">15079010174</a>
+      <a
+        class="scm"
+        href="mailto:1120805364@qq.com"
+        :ref="(el) => addTextRef(el as HTMLAnchorElement)"
+        >1120805364@qq.com</a
+      >
+      <a class="scm" href="tel:15079010174" :ref="(el) => addTextRef(el as HTMLAnchorElement)"
+        >15079010174</a
+      >
       <spring-mobile class="mobile-svg" />
     </div>
   </section>

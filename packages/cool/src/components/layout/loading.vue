@@ -134,11 +134,10 @@ const closestCenterHexagon = ({
 
   return closest;
 };
-
+let animating = false;
 const handleResize = useThrottleFn(
   (width: number, height: number) => {
     // console.log('wat size', width, height);
-    if (!width || !height) return;
     /**
      * 计算六边形的基础大小
      * 根据窗口的最小维度（宽度或高度）动态调整
@@ -229,7 +228,7 @@ const handleResize = useThrottleFn(
 );
 
 watch([width, height], ([newWidth, newHeight]) => {
-  if (!canUseDOM()) return;
+  if (!canUseDOM() || !newWidth || !newHeight || animating) return;
   handleResize(newWidth, newHeight);
 });
 
@@ -242,6 +241,7 @@ const allAniCls = {
 watch([() => progress, hexagons], ([newVal, currHexagons]) => {
   if (!loadingWrapperRef.value || !currHexagons.length) return;
   ctx = gsap.context(() => {
+    animating = true;
     const opacity = transformer(newVal);
     const colorIndex = Math.round(opacity);
     currColor.value = Colors[colorIndex];
@@ -293,6 +293,7 @@ watch([() => progress, hexagons], ([newVal, currHexagons]) => {
                   duration: DebounceTime.normal / 1000,
                   autoAlpha: 0,
                   onComplete() {
+                    animating = false;
                     emit('onHide');
                   },
                 });
