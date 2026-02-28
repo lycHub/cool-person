@@ -1,0 +1,2 @@
+- 替换掉vaul-vue
+- 所有pointer event 换成常规的mouse、touch
