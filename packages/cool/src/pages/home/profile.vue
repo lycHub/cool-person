@@ -2,12 +2,7 @@
   <section class="sec sec-profile" ref="secProfileRef">
     <div class="profile">
       <!-- tufang,delong -->
-      <img
-        class="profile-pic"
-        :src="publicAssetsPrefix() + '/images/linke-2.png'"
-        alt="林克"
-        width="300"
-      />
+      <img class="profile-pic" :src="publicAssetsPrefix() + '/images/linke-2.png'" alt="林克" width="300" />
 
       <div class="profile-text">
         <div class="info">
@@ -42,14 +37,14 @@ import ContactIcons from '../../components/contact-icons/index.vue';
 const secProfileRef = useTemplateRef<HTMLElement>('secProfileRef');
 const { elementX, elementY, elementWidth, elementHeight } = isClient
   ? useMouseInElement(secProfileRef, {
-      // touch: false,
-    })
+    // touch: false,
+  })
   : {
-      elementX: shallowRef(0),
-      elementY: shallowRef(0),
-      elementWidth: shallowRef(0),
-      elementHeight: shallowRef(0),
-    };
+    elementX: shallowRef(0),
+    elementY: shallowRef(0),
+    elementWidth: shallowRef(0),
+    elementHeight: shallowRef(0),
+  };
 
 const moveEl = ({
   targetEl,
@@ -161,6 +156,8 @@ watch([elementX, elementY], ([newElementX, newElementY]) => {
       white-space: nowrap;
 
       .info {
+        --contact-icon-text-size: var(--text-size-24);
+
         order: 2;
 
         .position {
@@ -193,7 +190,7 @@ watch([elementX, elementY], ([newElementX, newElementY]) => {
   filter: brightness(0.6);
 }
 
-@media screen and (width >= 640px) {
+@media screen and (width >=640px) {
   .sec-profile .profile .profile-text {
     flex-direction: row;
     gap: 0 var(--spacing-30);
@@ -210,7 +207,7 @@ watch([elementX, elementY], ([newElementX, newElementY]) => {
   }
 }
 
-@media screen and (width >= 768px) {
+@media screen and (width >=768px) {
   .sec-profile .profile {
     img {
       margin-inline-end: 130px;
