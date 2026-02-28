@@ -29,15 +29,15 @@ export function useHoverProjects({
     lastTime: number;
   }> = null;
 
+  let isLeaving = false;
   const onMouseEnter = (event: MouseEvent, project: ProjectInfo) => {
     if (getDeviceTypeByUserAgent() !== 'desktop') return;
     const secSelector = gsap.utils.selector(toValue(container));
     const targetEl = secSelector('.project-pop')[0];
-    if (!targetEl) return;
+    if (isLeaving || !targetEl) return;
     const imgEl = targetEl.querySelector('img')! as HTMLImageElement;
     imgEl.src = `${publicAssetsPrefix()}/images/${project.coverPic}`;
     imgEl.alt = project.name;
-    if (moveMeta) return;
     moveMeta = {
       startX: event.clientX,
       startY: event.clientY,
@@ -81,6 +81,7 @@ export function useHoverProjects({
   };
 
   const onMouseLeave = () => {
+    isLeaving = true;
     const secSelector = gsap.utils.selector(toValue(container));
     const targetEl = secSelector('.project-pop')[0]!;
     gsap.to(targetEl, {
@@ -88,12 +89,13 @@ export function useHoverProjects({
       scale: 0,
       duration: 0.3,
       onComplete: () => {
-        moveMeta = null;
         gsap.killTweensOf(targetEl);
+        moveMeta = null;
+        xTo = null;
+        yTo = null;
+        isLeaving = false;
       },
     });
-    xTo = null;
-    yTo = null;
   };
 
   return { imgSize, onMouseEnter, onMouseMove, onMouseLeave };
