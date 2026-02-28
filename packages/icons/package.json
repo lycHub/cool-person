@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "node watch",
-    "build": "concurrently \"npm run gen:data\" \"npm run gen:css\"",
+    "build": "concurrently \"pnpm gen:data\" \"pnpm gen:css\"",
     "gen:data": "node gen-data",
     "gen:css": "node gen-css",
     "preview": "vite"
   },
-  "license": "MIT",
+  
   "exports": {
     "./*": "./*"
   },
@@ -19,7 +19,7 @@
     "icons"
   ],
   "author": "ysx",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@iconify/tools": "^4.1.1",
     "@iconify/utils": "^2.3.0",

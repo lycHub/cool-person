@@ -14,7 +14,7 @@ import { Icon } from '@iconify-icon/vue';
 run以下命令启动vite dev server：
 
 ```sh
-npm run start:icon
+pnpm start:icon
 ```
 
 ## 修改更新icon
@@ -22,4 +22,4 @@ npm run start:icon
 比如要新增一个 test.svg:
 
 1. 将test.svg下载到 svgs目录下
-2. npm run build:icon 后即可使用
+2. pnpm build:icon 后即可使用
