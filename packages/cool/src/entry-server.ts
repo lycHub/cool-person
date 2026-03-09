@@ -5,7 +5,7 @@ import devalue from '@nuxt/devalue';
 import { getInitHead } from './utils/head';
 import { createApp, type SsrRenderContext } from './main';
 import { createRouterInstance } from './router/ssr';
-import { useApiDataStore } from './store';
+import { useApiDataStore, useUserStore } from './store';
 
 export async function render(ctx: SsrRenderContext) {
   const { app, pinia } = createApp();
@@ -31,9 +31,13 @@ export async function render(ctx: SsrRenderContext) {
   }
 
   const appStore = useApiDataStore(pinia);
+  const userStore = useUserStore(pinia);
 
   if (ctx.apiData) {
     appStore.changeState(ctx.apiData);
+  }
+  if (ctx.user) {
+    userStore.changeState(ctx.user);
   }
   const piniaState = devalue(pinia.state.value);
   return {

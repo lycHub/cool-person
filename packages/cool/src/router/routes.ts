@@ -12,11 +12,17 @@ export const allRoutes: RouterOptions['routes'] = [
         name: 'home',
         path: '',
         component: HomePage,
+        meta: {
+          prefetch: 'home',
+        },
       },
       {
         name: 'projects',
         path: 'projects',
         component: () => import('../pages/projects/index.vue'),
+        meta: {
+          prefetch: 'projects',
+        },
       },
       {
         name: 'gallery',

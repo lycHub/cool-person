@@ -1,14 +1,18 @@
 <template>
   <section class="sec sec-profile" ref="secProfileRef">
     <div class="profile">
-      <!-- tufang,delong -->
-      <img class="profile-pic" :src="publicAssetsPrefix() + '/images/linke-2.png'" alt="林克" width="300" />
+      <img
+        class="profile-pic"
+        :src="`${publicAssetsPrefix()}/images/${state.avatarUrl}`"
+        :alt="state.name"
+        width="300"
+      />
 
       <div class="profile-text">
         <div class="info">
-          <div class="position">海拉鲁发明家</div>
+          <div class="position">{{ state.job }}</div>
           <div class="contract">
-            <p class="name">林克</p>
+            <p class="name">{{ state.name }}</p>
             <contact-icons class="icons" />
           </div>
         </div>
@@ -33,18 +37,21 @@ import DownArrows from '../../components/down-arrows/index.vue';
 import { publicAssetsPrefix } from '../../utils';
 
 import ContactIcons from '../../components/contact-icons/index.vue';
+import { useUserStore } from '../../store';
+
+const { state } = useUserStore();
 
 const secProfileRef = useTemplateRef<HTMLElement>('secProfileRef');
 const { elementX, elementY, elementWidth, elementHeight } = isClient
   ? useMouseInElement(secProfileRef, {
-    // touch: false,
-  })
+      // touch: false,
+    })
   : {
-    elementX: shallowRef(0),
-    elementY: shallowRef(0),
-    elementWidth: shallowRef(0),
-    elementHeight: shallowRef(0),
-  };
+      elementX: shallowRef(0),
+      elementY: shallowRef(0),
+      elementWidth: shallowRef(0),
+      elementHeight: shallowRef(0),
+    };
 
 const moveEl = ({
   targetEl,

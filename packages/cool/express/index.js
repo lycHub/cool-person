@@ -2,7 +2,7 @@ import express from 'express';
 import { devRouter, prodRouter, apiRouter } from './routes/index.js';
 import { join } from 'node:path';
 import { getDirname } from './utils/dirname.js';
-import { BasePathName } from './utils/constants.js';
+import { BasePathName, ApiPrefix } from './utils/constants.js';
 
 const app = express();
 const isDev = process.env.NODE_ENV === 'development';
@@ -14,9 +14,7 @@ app.use('/' + BasePathName, express.static(join(__dirname, './client'), { index:
 
 const PORT = isDev ? 3333 : 3334;
 
-// console.log({ isDev });
-
-app.use('/api', apiRouter);
+app.use(ApiPrefix, apiRouter);
 // Mount SSR routers under /ssr base URL
 app.use('/' + BasePathName, isDev ? devRouter : prodRouter);
 

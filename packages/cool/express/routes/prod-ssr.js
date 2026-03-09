@@ -4,9 +4,8 @@ import fse from 'fs-extra';
 import { renderPreloadLinks } from '../utils/preload.js';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
-import { getDefaultValue } from '../utils/constants.js';
 import { getDirname } from '../utils/dirname.js';
-import { BasePathName } from '../utils/constants.js';
+import { BasePathName, getDefaultValue, getUserInfo } from '../utils/constants.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -34,6 +33,7 @@ async function run() {
       originalUrl,
       url,
       apiData: getDefaultValue(),
+      user: getUserInfo(),
       manifest,
     };
 
