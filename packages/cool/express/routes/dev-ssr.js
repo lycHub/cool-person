@@ -4,9 +4,8 @@ import { join } from 'node:path';
 import fse from 'fs-extra';
 import { transformHtmlTemplate } from '@unhead/vue/server';
 import { shouldSkipSSR } from '../utils/ssr-filter.js';
-import { getDefaultValue } from '../utils/constants.js';
 import { getDirname } from '../utils/dirname.js';
-import { BasePathName } from '../utils/constants.js';
+import { BasePathName, getDefaultValue, getUserInfo } from '../utils/constants.js';
 
 const router = express.Router({ caseSensitive: true });
 
@@ -29,7 +28,6 @@ async function run() {
   const __dirname = getDirname(import.meta.url);
 
   router.get('*all', async (req, res, next) => {
-    // Remove /ssr prefix from the URL for SSR processing
     const originalUrl = req.originalUrl.replace(new RegExp('^/' + BasePathName), '') || '/';
     const url = req.url.replace(new RegExp('^/' + BasePathName), '') || '/';
 
@@ -41,15 +39,18 @@ async function run() {
 
     try {
       const { render } = await vite.ssrLoadModule(join(__dirname, '../../src/entry-server.ts'));
-      const { stream, head, piniaState } = await render({
+      const ssrCtx = {
         originalUrl,
         url,
         apiData: getDefaultValue(),
-      });
+        user: getUserInfo(),
+      };
+
+      const { stream, head, piniaState } = await render(ssrCtx);
       if (!stream || !head || !piniaState) {
         return next();
       }
-      console.log('SSR rendering>>>', originalUrl);
+      console.log('SSR rendering>>>', originalUrl, url);
       originHtml = originHtml.replace(
         '<!--pinia-state-->',
         `<script>window.__PINIA_STATE__ = ${piniaState}</script>`,

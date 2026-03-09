@@ -2,6 +2,7 @@ import { randomInt } from 'es-toolkit/math';
 import { simpleFaker } from '@faker-js/faker';
 
 export const BasePathName = 'ssr';
+export const ApiPrefix = '/api';
 
 const Stacks = [
   'TypeScript',
@@ -205,7 +206,6 @@ export function getDefaultValue() {
   return {
     stacks: getStackOptions(),
     hobbies: HobbyOptions,
-    contactWays: ContactWays,
     projects: Projects,
     sceneries: Sceneries,
     friends: Friends,
@@ -232,4 +232,13 @@ export function getStackOptions() {
       rippleColor: color,
     };
   });
+}
+
+export function getUserInfo() {
+  return {
+    name: '林克',
+    job: '海拉鲁发明家',
+    avatarUrl: 'linke-2.png',
+    contactWays: ContactWays,
+  };
 }

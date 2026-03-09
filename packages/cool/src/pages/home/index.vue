@@ -51,11 +51,9 @@ onMounted(() => {
     },
     onDown: () => {
       direction.value = 1;
-    }
+    },
   });
 });
-
-
 
 onUnmounted(() => {
   homeScrollObserver?.kill();
