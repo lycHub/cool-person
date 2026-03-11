@@ -20,8 +20,9 @@ async function run() {
 
   router.get('*all', async (req, res, next) => {
     // Remove /ssr prefix from the URL for SSR processing
-    const originalUrl = req.originalUrl.replace(new RegExp('^/' + BasePathName), '') || '/';
-    const url = req.url.replace(new RegExp('^/' + BasePathName), '') || '/';
+    const originalUrl =
+      req.originalUrl.replace(new RegExp('^\/' + BasePathName + '(\/|$)', 'g'), '') || '/';
+    const url = req.url.replace(new RegExp('^\/' + BasePathName + '(\/|$)', 'g'), '') || '/';
 
     if (shouldSkipSSR(originalUrl)) {
       return next();
