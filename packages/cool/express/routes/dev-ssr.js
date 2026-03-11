@@ -28,8 +28,9 @@ async function run() {
   const __dirname = getDirname(import.meta.url);
 
   router.get('*all', async (req, res, next) => {
-    const originalUrl = req.originalUrl.replace(new RegExp('^/' + BasePathName), '') || '/';
-    const url = req.url.replace(new RegExp('^/' + BasePathName), '') || '/';
+    const originalUrl =
+      req.originalUrl.replace(new RegExp('^\/' + BasePathName + '(\/|$)', 'g'), '') || '/';
+    const url = req.url.replace(new RegExp('^\/' + BasePathName + '(\/|$)', 'g'), '') || '/';
 
     if (shouldSkipSSR(originalUrl)) {
       return next();
