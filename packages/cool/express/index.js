@@ -15,10 +15,9 @@ app.use('/' + BasePathName, express.static(join(__dirname, './client'), { index:
 const PORT = isDev ? 3333 : 3334;
 
 app.use(ApiPrefix, apiRouter);
-// Mount SSR routers under /ssr base URL
 app.use('/' + BasePathName, isDev ? devRouter : prodRouter);
 
-app.use((err, req, res, next) => {
+app.use((err, _, res, next) => {
   console.error(err.stack);
   console.log('next', next.name);
   res.status(500).send('Something broken!!!');
