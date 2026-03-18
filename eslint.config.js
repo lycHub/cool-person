@@ -61,7 +61,7 @@ export default tseslint.config(
   // Vue相关
   {
     name: '@ysx/eslint/vue',
-    files: ['packages/**/*.{vue}'],
+    files: ['packages/**/*.vue'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -91,6 +91,7 @@ export default tseslint.config(
 
   {
     name: '@ysx/eslint/typescript',
+    files: ['packages/**/*.{ts,tsx}'],
     rules: {
       '@typescript-eslint/no-non-null-assertion': 'off',
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
@@ -112,10 +113,13 @@ export default tseslint.config(
   {
     ignores: [
       '**/dist/**',
-      'node_modules/**',
-      'packages/icons/**',
-      'packages/**/*.mock.ts',
-      '**/bacs/**'
+      '**/node_modules/**',
+      '**/packages/icons/**',
+      '**/*.mock.ts',
+      '**/bacs/**',
+      '**/*.d.ts',
+      '**/coverage/**',
+      '**/.vite/**'
     ]
   }
 );
